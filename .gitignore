@@ -1,0 +1,35 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.py~  
+*.log
+
+# === Django ===
+db.sqlite3              # Default local dev DB (don't commit it)
+*.sqlite3               # Catch-all for any accidental SQLite DBs
+*.json                  # Optional: exclude dumped fixtures if not tracking them
+/media/                 # Uploaded media files
+/staticfiles/           # Output of `collectstatic` (rebuildable)
+
+# === Environments ===
+env/
+venv/
+.venv/
+ENV/
+*.env
+.env.*
+!.env.example           # Keep an example file if you want to show required keys
+
+# === IDEs / Editors ===
+.vscode/
+.idea/
+*.code-workspace
+
+# === OS / Misc ===
+.DS_Store               # macOS
+Thumbs.db               # Windows
+
+# === Bootstrap ===
+node_modules/          # Node.js dependencies
