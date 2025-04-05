@@ -150,7 +150,7 @@ def mainpage(request):
     subscribed_tags_queryset = Tag.objects.filter(event__subscription__id_user=user_id).distinct().values_list('tag_name', flat=True)
 
     # Get events that match the tags
-    may_like_events = Event.objects.filter(tag__tag_name__in=subscribed_tags_queryset).distinct()
+    may_like_events = Event.objects.filter(tags__tag_name__in=subscribed_tags_queryset).distinct()
 
     # Convert to a list
     may_like_events = list(may_like_events)
@@ -161,8 +161,14 @@ def mainpage(request):
         }
     }
 
-    return render(request, 'coreApp/events.html', context)
+    return render(request, 'coreApp/mainpage.html', context)
 
+
+import random
+def getRandomListOfRecommandations(events, numberOfEvents):
+    if numberOfEvents > len(events):
+        numberOfEvents = len(events)
+    return random.sample(events, numberOfEvents) 
 
 # event room
 def room(request):
