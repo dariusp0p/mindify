@@ -50,6 +50,7 @@ def signInSignOutView(request):
     }
     return render(request, 'userApp/signup-login.html', context)
 
+from coreApp.models import Subscription, Event
 def profile(request):
     user_id = request.session.get('user_id')
     if not user_id:
@@ -60,9 +61,14 @@ def profile(request):
         return redirect('signup-login')
     date_joined = user.date_joined.strftime('%d.%m.%Y') if user and user.date_joined else None
 
+    you_are_part_of = Subscription.objects.filter(id_user=user_id, left_date=None).order_by('-joined_date')
+    your_events = Event.objects.filter(id_creator=user_id).order_by('-date_posted')
+
     context = {
         'user': user,
         'date_joined': date_joined,
+        'you_are_part_of': you_are_part_of,
+        'your_events': your_events,
     }
     return render(request, 'userApp/profile.html', context)
 
