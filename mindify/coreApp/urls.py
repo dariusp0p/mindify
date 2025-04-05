@@ -7,14 +7,14 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('premium/', views.premium, name='premium'),
-    path('main/', views.mainpage, name='mainpage'),
 
+    path('main/', views.mainpage, name='main'),
     path('main/room/', views.room, name='room'),
 
-    path('event/view/', views.viewEvent, name='view_event'),
-    path('event/create/', views.createEvent, name='create_event'),
-    path('event/edit/', views.editEvent, name='edit_event'),
-    path('event/delete/', views.deleteEvent, name='delete_event'),
+    path('event/view/', views.viewEvent, name='event_view'),
+    path('event/create/', views.createEvent, name='event_create'),
+    path('event/edit/', views.editEvent, name='event_edit'),
+    path('event/delete/', views.deleteEvent, name='event_delete'),
 
     path('payment/checkout/', views.checkout, name='payment_checkout'),
     path('payment/success/', views.success, name='payment_success'),

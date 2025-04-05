@@ -8,7 +8,10 @@ from .forms import SignUpForm, LoginForm
 from coreApp.models import User
 from datetime import datetime
 
-def signInSignOutView(request):
+
+
+# signup-login-logout views
+def signupLogin(request):
     if request.method == "POST":
         if 'login' in request.POST:
             logInForm = LoginForm(request.POST)
@@ -21,7 +24,7 @@ def signInSignOutView(request):
                 if user and password == user.password:
                     request.session['user_id'] = user.id
                     user.save()
-                    return redirect('events')
+                    return redirect('main')
                 else:
                     print("Email sau parolă incorectă")
         elif 'signup' in request.POST:
@@ -37,7 +40,7 @@ def signInSignOutView(request):
                     user = User.objects.create(username=username, email=email, password=password)
                     request.session['user_id'] = user.id
                     user.save()
-                    return redirect('events')
+                    return redirect('main')
                 else:
                     print("User existent!")
 
@@ -50,7 +53,26 @@ def signInSignOutView(request):
     }
     return render(request, 'userApp/signup-login.html', context)
 
-def profile(request):
+
+def logout(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("homepage")
+
+    user = User.objects.get(id=user_id)
+
+    user.active_now = False
+    user.save()
+    update_last_online(request)
+    request.session.pop("user_id")
+    return redirect('homepage')
+
+
+
+
+# profile views
+def user(request):
     user_id = request.session.get('user_id')
     if not user_id:
         return redirect('signup-login')
@@ -64,21 +86,9 @@ def profile(request):
         'user': user,
         'date_joined': date_joined,
     }
-    return render(request, 'userApp/profile.html', context)
+    return render(request, 'userApp/user.html', context)
 
-def logoutView(request):
-    user_id = request.session.get("user_id")
 
-    if not user_id:
-        return redirect("landing")
-
-    user = User.objects.get(id=user_id)
-
-    user.active_now = False
-    user.save()
-    update_last_online(request)
-    request.session.pop("user_id")
-    return redirect('landing')
 
 @csrf_exempt
 def update_last_online(request):
@@ -96,8 +106,9 @@ def update_last_online(request):
     except User.DoesNotExist:
         return JsonResponse({"status": "error"}, status=404)
 
+
 from .forms import ProfileEditForm
-def profileEdit(request):
+def editUser(request):
     user_id = request.session.get('user_id')
     if not user_id:
         return redirect('signup-login')
@@ -130,7 +141,7 @@ def profileEdit(request):
             'pfp': user.profile_picture.url if user.profile_picture else None,
         }
 
-    return render(request, 'userApp/edit-profile.html', context)
+    return render(request, 'userApp/edit-user.html', context)
 
 def changePassword(request):
     # user_id = request.session.get('user_id')
