@@ -5,12 +5,12 @@ import os
 # Create your models here.
 class User(models.Model):
     username = models.CharField(max_length=30, unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30, null=True, blank=True)
+    last_name = models.CharField(max_length=30, null=True, blank=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=30, default="user1234")
     is_active = models.BooleanField(default=False)
-    last_login = models.DateTimeField()
+    last_login = models.DateTimeField(null=True, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     is_premium = models.BooleanField(default=False)
     gender = models.CharField(max_length=10, null=True, blank=True)

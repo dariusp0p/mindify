@@ -7,9 +7,6 @@ from .forms import SignUpForm, LoginForm
 from coreApp.models import User
 
 def signInSignOutView(request):
-    logInForm = LoginForm()
-    signUpForm = SignUpForm()
-
     if request.method == "POST":
         if 'login' in request.POST:
             logInForm = LoginForm(request.POST)
@@ -33,10 +30,17 @@ def signInSignOutView(request):
                 email = signUpForm.cleaned_data['email']
                 password = signUpForm.cleaned_data['password']
 
-                user = User.objects.create(username=username, email=email, password=password)
-                request.session['user_id'] = user.id
-                user.save()
-                return redirect('core')
+                user = User.objects.filter(email=email).first()
+                if not user:
+                    user = User.objects.create(username=username, email=email, password=password)
+                    request.session['user_id'] = user.id
+                    user.save()
+                    return redirect('core')
+                else:
+                    print("User existent!")
+
+    logInForm = LoginForm()
+    signUpForm = SignUpForm()
 
     context = {
         'logInForm': logInForm,
