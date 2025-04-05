@@ -60,6 +60,13 @@ class Payment(models.Model):
         return f"Payment {self.id}: {self.subscription_date}"
 
 
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return f"{self.id}. {self.tag_name}"
+
+
 class Event(models.Model):
     title = models.CharField(max_length=50)
     id_creator = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -69,6 +76,7 @@ class Event(models.Model):
     price = models.IntegerField(blank=True, null=True)
     description = models.TextField()
     event_picture = models.ImageField(blank=True, null=True, upload_to="images/events/")
+    tags = models.ManyToManyField(Tag, blank=True)
 
     # Semnal pentru a șterge poza de event când un event este șters
     @receiver(models.signals.post_delete, sender='coreApp.Event')
@@ -99,24 +107,13 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.id}. {self.title}"
-    
-
-class Tag(models.Model):
-    id_event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True)
-    tag_name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return f"{self.id}. {self.tag_name}"
-    
-    class Meta:
-        unique_together = (('id_event', 'tag_name'),)
 
 
 class Subscription(models.Model):
     id_event = models.ForeignKey(Event, on_delete=models.CASCADE)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     joined_date = models.DateTimeField(auto_now_add=True)
-    left_date = models.DateTimeField(null=True, blank=True)
+    left_date = models.DateTimeField(null=True)
 
     def __str__(self):
         return f"{self.id_user.username} - {self.id_event.title}"

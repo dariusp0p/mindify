@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import User, Event, Tag
+from .models import User, Event, Tag, Subscription
 from django.forms.models import model_to_dict
+from django.db.models import Q
+import random
+
 
 # basic webite views
 def homepage(request):
@@ -58,7 +61,7 @@ def premium(request):
 
 
 
-# event feed
+# mainpage views
 def mainpage(request):
     user_id = request.session.get("user_id")
 
@@ -91,24 +94,85 @@ def mainpage(request):
 
     distinct_tags = Tag.objects.values_list('tag_name', flat=True).distinct()
 
-    eventsFiltered = Event.objects.all()
-
     context = {
         "user": user,
         "freeEvents": free_events,
         "premiumEvents": premium_events,
         "tags": distinct_tags,
-        "eventsFiltered": eventsFiltered,
     }
+
+    #Extragerea filtrelor de cautare
+    free_paid_filter = request.GET.getlist("type")
+    selected_tags = request.GET.getlist("category")
+    date_from = request.GET.get("date_from")
+    date_to = request.GET.get("date_to")
+    search = request.GET.get("searchBar")
+
+    queryset = Event.objects.all()
+
+    if free_paid_filter:
+        price_filter = Q()
+        if "Free" in free_paid_filter:
+            price_filter |= Q(price__isnull=True) | Q(price=0)
+        if "Paid" in free_paid_filter:
+            price_filter |= Q(price__gt=0)
+        queryset = queryset.filter(price_filter)
+
+    # Filtru după taguri
+    if selected_tags:
+        queryset = queryset.filter(tags__tag_name__in=selected_tags)
+
+    # # Filtru date
+    if date_from and date_to:
+        queryset = queryset.filter(date_posted__date__range=[date_from, date_to])
+    elif date_from:
+        queryset = queryset.filter(date_posted__date__gte=date_from)
+    elif date_to:
+        queryset = queryset.filter(date_posted__date__lte=date_to)
     
+    #Search bar-ul
+    if search:
+        queryset = queryset.filter(title__icontains=search) #cauta un substring case insensitive in titles
+    
+
+    context = {
+        **context, 
+        **{
+            "eventsFiltered": queryset,
+            "selected_types": free_paid_filter,
+            "selected_tags": selected_tags,
+            "date_from": date_from,
+            "date_to": date_to,
+            "user": user,
+        }
+    } 
+
+    subscribed_tags_queryset = Tag.objects.filter(event__subscription__id_user=user_id).distinct().values_list('tag_name', flat=True)
+
+    # Get events that match the tags
+    may_like_events = Event.objects.filter(tags__tag_name__in=subscribed_tags_queryset).distinct()
+
+    # Convert to a list
+    may_like_events = list(may_like_events)
+    context = {
+        **context,
+        **{
+            "recommandations": getRandomListOfRecommandations(may_like_events, 6),
+        }
+    }
+
     return render(request, 'coreApp/mainpage.html', context)
 
+
+import random
+def getRandomListOfRecommandations(events, numberOfEvents):
+    if numberOfEvents > len(events):
+        numberOfEvents = len(events)
+    return random.sample(events, numberOfEvents) 
 
 # event room
 def room(request):
     return render(request, 'coreApp/room.html')
-
-
 
 
 
@@ -132,8 +196,6 @@ def checkout(request):
 
 def success(request):
     return render(request, 'coreApp/payment/payment-success.html')
-
-    return render(request, 'coreApp/events.html', context)
 
 from .models import Content
 from .utilities import extract_text_from_file

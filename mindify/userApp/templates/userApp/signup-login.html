@@ -1,26 +1,19 @@
 {% extends "forms.html" %}
 
+{% load static %}
+
 {% block content %}
 
 <div class="auth-container" id="authContainer">
 
     <!-- Login Form -->
     <div class="form-panel" id="loginPanel">
-        <h4 class="h2">Login</h4>
+        <h4 class="h2 fw-bold">Login</h4>
         <form novalidate method="POST">
-            <!-- <div class="mb-3 form-floating"> -->
-            <!-- <div class="mb-3 form-floating">
-                <input type="email" class="form-control" id="loginEmail">
-                <label for="loginEmail" class="form-label">Email</label>
-            </div>
-            <div class="mb-3 form-floating">
-                <input type="password" class="form-control" id="loginPassword">
-                <label for="loginPassword" class="form-label">Password</label>
-            </div> -->
             {% csrf_token %}
             {% for field in logInForm %}
             <div class="mb-3 form-floating">
-                {{ field }} 
+                {{ field }}
                 {{ field.label_tag }}
             </div>
             {% endfor %}
@@ -30,26 +23,12 @@
 
     <!-- Signup Form -->
     <div class="form-panel" id="signupPanel">
-        <h4 class="h2">Sign Up</h4>
+        <h4 class="h2 fw-bold">Sign Up</h4>
         <form novalidate method="POST">
-            <!-- <div class="mb-3 form-floating"> -->
-        
-            <!-- <div class="mb-3 form-floating">
-                <input type="text" class="form-control" id="signupUsername">
-                <label for="signupUsername" class="form-label">Username</label>
-            </div>
-            <div class="mb-3 form-floating">
-                <input type="email" class="form-control" id="signupEmail">
-                <label for="signupEmail" class="form-label">Email</label>
-            </div>
-            <div class="mb-3 form-floating">
-                <input type="password" class="form-control" id="signupPassword">
-                <label for="signupPassword" class="form-label">Password</label>
-            </div> -->
             {% csrf_token %}
             {% for field in signUpForm %}
             <div class="mb-3 form-floating">
-                {{ field }} 
+                {{ field }}
                 {{ field.label_tag }}
             </div>
             {% endfor %}
@@ -60,8 +39,9 @@
     <!-- Sliding Blur Overlay -->
     <div class="overlay" id="overlay">
         <div id="overlayContent">
-            <h5 class="display-6" id="overlayText">Don't have an account?</h5>
-            <span class="toggle-btn text-primary" onclick="toggleForm()">Sign up</span>
+            <img src="{% static 'img/logo1.png' %}" alt="Logo" class="img-fluid mb-4" style="max-width: 150px;">
+            <h5 class="display-6 fw-bold" id="overlayText">Don't have an account?</h5>
+            <span class="toggle-btn h2 text-primary text-decoration-none" onclick="toggleForm()">Sign up</span>
         </div>
     </div>
 </div>
@@ -79,8 +59,7 @@
         });
     }
 
-
-    // form toggle
+    // Form toggle
     const container = document.getElementById('authContainer');
     const overlayText = document.getElementById('overlayText');
     const toggleBtn = document.querySelector('.toggle-btn');
@@ -99,7 +78,10 @@
         loginPanel.classList.toggle('disabled', isSignup);
         signupPanel.classList.toggle('disabled', !isSignup);
     }
-    toggleForm();
+    // toggleForm();
+    container.classList.remove('signup-active'); // Ensure no signup-active class
+    loginPanel.classList.remove('disabled'); // Enable Login form
+    signupPanel.classList.add('disabled'); // Disable Signup form
 </script>
 
 

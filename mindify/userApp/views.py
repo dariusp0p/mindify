@@ -98,6 +98,7 @@ def user(request):
     }
     return render(request, 'userApp/user.html', context)
 
+
 @csrf_exempt
 def update_last_online(request):
     """Actualizează last_time_online la ieșirea utilizatorului"""

@@ -1,9 +1,10 @@
-{% extends "core.html" %} {% block content %}
+{% extends "base.html" %} {% block content %}
 
 <header class="border-bottom p-2 mb-5">
   <div class="container d-flex flex-wrap justify-content-center">
-    <form class="col-12 col-lg-6" role="search" style="margin-top: 0">
+    <form class="col-12 col-lg-6" role="search" style="margin-top: 0" method="GET" action=".">
       <input
+        name="searchBar"
         type="search"
         class="form-control form-control-sm"
         placeholder="Search..."
@@ -21,7 +22,17 @@
 
 <div class="container my-4">
   <div class="row justify-content-center">
-    <!-- Card 1 -->
+    {% for event in recommandations %}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.description }}</p>
+              <a href="#" class="btn btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
   </div>
 </div>
 
@@ -38,7 +49,7 @@
     <!-- Left Sidebar: Filters -->
     <div class="col-md-3">
       <h5>Filters</h5>
-      <form method="GET" action="#">
+      <form method="GET" action=".">
         <!-- Free/Paid Filter -->
         <h6 class="mt-3">Type</h6>
         <ul class="list-group">
@@ -49,6 +60,9 @@
               name="type"
               value="Free"
               class="form-check-input me-2"
+              {% if 'Free' in selected_types %}
+                checked
+              {% endif %}
             />
             <label for="filterFree" class="form-check-label">Free</label>
           </li>
@@ -59,6 +73,9 @@
               name="type"
               value="Paid"
               class="form-check-input me-2"
+              {% if 'Paid' in selected_types %}
+                checked
+              {% endif %}
             />
             <label for="filterPaid" class="form-check-label">Paid</label>
           </li>
@@ -69,13 +86,16 @@
         <ul class="list-group">
           {% for tag in tags %}
           <li class="list-group-item">
-            <input
-              type="checkbox"
-              id="filter_{{tag}}"
-              name="category"
-              value="{{ tag }}"
-              class="form-check-input me-2"
-            />
+           <input
+            type="checkbox"
+            id="filter_{{tag}}"
+            name="category"
+            value="{{ tag }}"
+            class="form-check-input me-2"
+            {% if tag in selected_tags %}
+              checked
+            {% endif %}
+          />
             <label for="filter_{{tag}}" class="form-check-label"
               >{{ tag }}</label
             >
@@ -95,25 +115,34 @@
           <div class="flex-fill">
             <label for="filterDateFrom" class="form-label">From</label>
             <input
-              type="date"
-              id="filterDateFrom"
-              name="date_from"
-              class="form-control"
+                type="date"
+                id="filterDateTo"
+                name="date_from"
+                class="form-control"
+                {% if date_from %}
+                    value="{{ date_from }}"
+                {% endif %}
             />
-          </div>
-          <div class="flex-fill">
-            <label for="filterDateTo" class="form-label">To</label>
-            <input
-              type="date"
-              id="filterDateTo"
-              name="date_to"
-              class="form-control"
-            />
-          </div>
+            </div>
+            <div class="flex-fill">
+                <label for="filterDateTo" class="form-label">To</label>
+                <input
+                    type="date"
+                    id="filterDateTo"
+                    name="date_to"
+                    class="form-control"
+                    {% if date_to %}
+                        value="{{ date_to }}"
+                    {% endif %}
+                />
+            </div>
         </div>
-
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary w-100 mt-3">
+        <button
+          type="submit"
+          class="btn btn-primary w-100 mt-3"
+          name="filtersSubmit"
+        >
           Submit Filter
         </button>
       </form>
@@ -225,5 +254,38 @@
     /* Remove border for the last row */
   }
 </style>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.querySelector('header form');
+    const filterForm = document.querySelector('.col-md-3 form'); // Selectează formularul cu filtre
+
+    if (searchForm && filterForm) {
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Opriți trimiterea implicită a formularului de căutare
+
+            const searchBar = this.querySelector('input[name="searchBar"]').value;
+            const filterParams = new URLSearchParams(new FormData(filterForm));
+            const searchParams = new URLSearchParams();
+
+            if (searchBar) {
+                searchParams.append('searchBar', searchBar);
+            }
+
+            filterParams.forEach((value, key) => {
+                searchParams.append(key, value);
+            });
+
+            const currentPath = window.location.pathname;
+            const newUrl = `${currentPath}?${searchParams.toString()}`;
+            window.location.href = newUrl;
+        });
+    }
+});
+</script>
 
 {% endblock %}
