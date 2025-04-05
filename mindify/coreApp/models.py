@@ -16,11 +16,25 @@ class User(models.Model):
     gender = models.CharField(max_length=10, null=True, blank=True)
     profile_picture = models.ImageField(blank=True, null=True, upload_to="images/users/")
 
-    # Semnal pentru a șterge poza de profil când un user este șters
     @receiver(models.signals.post_delete, sender='coreApp.User')
     def auto_delete_file_on_delete(sender, instance, **kwargs):
-        if instance.profile_photo and os.path.isfile(instance.profile_photo.path):
-            os.remove(instance.profile_photo.path)
+        """Șterge poza de profil când un user e șters."""
+        if instance.profile_picture and instance.profile_picture.path and os.path.isfile(instance.profile_picture.path):
+            os.remove(instance.profile_picture.path)
+
+    @receiver(models.signals.pre_save, sender='coreApp.User')
+    def auto_delete_old_file_on_change(sender, instance, **kwargs):
+        """Șterge poza veche din media dacă este schimbată."""
+        if not instance.pk:
+            return  # user nou, deci nu are poza veche
+        old_instance = User.objects.get(pk=instance.pk)
+
+        old_file = old_instance.profile_picture
+        new_file = instance.profile_picture
+
+        if old_file and old_file != new_file:
+            if old_file.path and os.path.isfile(old_file.path):
+                os.remove(old_file.path)
 
     def get_profile_photo_url(self):
         if self.profile_photo:
@@ -35,7 +49,7 @@ class User(models.Model):
             return '/static/userApp/images/default_image_woman.png'
         
     def __str__(self):
-        return self.username
+        return f"{self.id}. {self.username}"
 
 
 class Payment(models.Model):
@@ -54,13 +68,27 @@ class Event(models.Model):
     is_listed = models.BooleanField(default=True)
     price = models.IntegerField(blank=True, null=True)
     description = models.TextField()
-    event_picture = models.ImageField(blank=True, null=True, upload_to="images/users/")
+    event_picture = models.ImageField(blank=True, null=True, upload_to="images/events/")
 
     # Semnal pentru a șterge poza de event când un event este șters
     @receiver(models.signals.post_delete, sender='coreApp.Event')
     def auto_delete_file_on_delete(sender, instance, **kwargs):
         if instance.event_picture and os.path.isfile(instance.event_picture.path):
             os.remove(instance.event_picture.path)
+
+    @receiver(models.signals.pre_save, sender='coreApp.Event')
+    def auto_delete_old_file_on_change(sender, instance, **kwargs):
+        """Șterge poza veche din media dacă este schimbată."""
+        if not instance.pk:
+            return  # event nou, deci nu are poza veche
+        old_instance = Event.objects.get(pk=instance.pk)
+
+        old_file = old_instance.event_picture
+        new_file = instance.event_picture
+
+        if old_file and old_file != new_file:
+            if old_file.path and os.path.isfile(old_file.path):
+                os.remove(old_file.path)
 
     def get_event_picture_url(self):
         if self.event_picture:
@@ -70,15 +98,18 @@ class Event(models.Model):
         return '/static/userApp/images/default_event_photo.png'
 
     def __str__(self):
-        return self.title
+        return f"{self.id}. {self.title}"
     
 
 class Tag(models.Model):
     id_event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True)
-    tag_name = models.CharField(max_length=30, unique=True)
+    tag_name = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.tag_name
+        return f"{self.id}. {self.tag_name}"
+    
+    class Meta:
+        unique_together = (('id_event', 'tag_name'),)
 
 
 class Subscription(models.Model):
@@ -104,8 +135,8 @@ class Message(models.Model):
 
     def __str__(self):
         if len(self.body) > 50:
-            return self.body[:50] + "..."
-        return self.body
+            return f"{self.id}. {self.body[:50]}" + "..."
+        return f"{self.id}. {self.body}"
     
 
     class Meta:
