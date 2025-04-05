@@ -212,3 +212,18 @@ def deleteUser(request):
     #     'user': user,
     # }
     return render(request, 'userApp/delete-user.html')
+
+
+def settings(request):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('signup-login')
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return redirect('signup-login')
+
+    context = {
+        'user': user,
+    }
+    return render(request, 'userApp/settings.html', context)

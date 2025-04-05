@@ -4,62 +4,39 @@
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-between">
       <!-- Left Section: Logo -->
-      <a
-        href="/"
-        class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none"
-      >
-        <img
-          src="{% static 'img/logo1.png' %}"
-          alt="Logo"
-          width="56"
-          height="48"
-          class="me-2"
-        />
+      <a href="{% url 'homepage' %}"
+        class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+        <img src="{% static 'img/logo1.png' %}" alt="Logo" width="56" height="48" class="me-2" />
       </a>
 
       {% if user %}
-      <!-- Center Section: Navigation Links -->
-      <ul
-        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-      >
-        <li><a href="{% url 'main' %}" class="nav-link px-2">Events</a></li>
-        <!-- <li><a href="/premium" class="nav-link px-2">Premium</a></li> -->
+      <!-- Middle Section: Navigaiton -->
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="{% url 'main' %}" class="nav-link px-2">Main</a></li>
         <li class="position-relative">
           <a href="{% url 'premium' %}" class="nav-link px-2">Premium</a>
-          <span
-            class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark"
-            style="font-size: 0.6rem; transform: translate(-50%, -50%)"
-          >
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark"
+            style="font-size: 0.6rem; transform: translate(-50%, -50%)">
             👑
           </span>
         </li>
+        <li><a href="{% url 'homepage' %}" class="nav-link px-2">Home</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link px-2">About</a></li>
+        <li><a href="{% url 'contact' %}" class="nav-link px-2">Contact</a></li>
       </ul>
 
       <!-- Right Section: Dropdown -->
       <div class="dropdown text-end d-flex align-items-center">
-        <span class="me-2"
-          >Hello, {{ user.first_name }} {{ user.last_name }}!</span
-        >
-
-        <!-- Dropdown -->
-        <a
-          href="#"
-          class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <img
-            src="{{ user.get_profile_photo_url }}"
-            alt="Profile Picture"
-            width="32"
-            height="32"
-            class="rounded-circle"
-          />
+        <span class="me-2">Hello, {{ user.first_name }} {{ user.last_name }}!</span>
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <img src="{{ user.get_profile_photo_url }}" alt="Profile Picture" width="32" height="32"
+            class="rounded-circle" />
         </a>
         <ul class="dropdown-menu text-small">
           <li><a class="dropdown-item" href="{% url 'event_create' %}">New event</a></li>
-          <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+          <li><a class="dropdown-item" href="{% url 'user' %}">Profile</a></li>
           <li>
             <hr class="dropdown-divider" />
           </li>
@@ -68,14 +45,21 @@
           </li>
         </ul>
       </div>
+
       {% else %}
+      <!-- Middle Section: Navigation -->
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="{% url 'homepage' %}" class="nav-link px-2">Home</a></li>
+        <li><a href="{% url 'about' %}" class="nav-link px-2">About</a></li>
+        <li><a href="{% url 'contact' %}" class="nav-link px-2">Contact</a></li>
+      </ul>
+
       <!-- Login Button -->
       <div class="text-end">
-        <a href="{% url 'signup_login' %}" class="btn btn-outline-primary me-2"
-          >Log In</a
-        >
+        <a href="{% url 'signup_login' %}" class="btn btn-outline-primary me-2">Log In</a>
       </div>
       {% endif %}
+
     </div>
   </div>
 </header>

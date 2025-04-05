@@ -71,7 +71,7 @@
           <p>
             Username: <strong>{{ user.username }}</strong>
             <a
-              href="/user/profile/change-username"
+              href="{% url 'change_username' %}"
               class="text-primary ms-2"
               title="Edit Username"
             >
@@ -81,8 +81,8 @@
           <p>
             Email: <strong>{{ user.email }}</strong>
             <a
-              href="/user/profile/change-email"
-              class="text-primary ms-2"
+            href="{% url 'change_email' %}"
+            class="text-primary ms-2"
               title="Edit Email"
             >
               <i class="bi bi-pencil-square"></i>
@@ -97,15 +97,15 @@
 
           <!-- Action Buttons -->
           <div class="mt-4 d-flex flex-wrap gap-2 justify-content-end">
-            <a href="/user/profile/edit" class="btn btn-outline-primary"
+            <a href="{% url 'edit_user' %}" class="btn btn-outline-primary"
               >Edit Profile</a
             >
             <a
-              href="/user/profile/change-password"
+              href="{% url 'change_password' %}"
               class="btn btn-outline-primary"
               >Change Password</a
             >
-            <a href="/user/profile/delete-user" class="btn btn-outline-danger"
+            <a href="{% url 'delete_user' %}" class="btn btn-outline-danger"
               >Delete Account</a
             >
           </div>
