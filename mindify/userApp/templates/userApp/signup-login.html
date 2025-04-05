@@ -1,0 +1,93 @@
+{% extends "forms.html" %}
+
+
+{% block content %}
+
+
+<div class="auth-container" id="authContainer">
+
+    <!-- Login Form -->
+    <div class="form-panel" id="loginPanel">
+        <h4 class="h2">Login</h4>
+        <form>
+            <div class="mb-3 form-floating">
+                <input type="email" class="form-control" id="loginEmail">
+                <label for="loginEmail" class="form-label">Email</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <input type="password" class="form-control" id="loginPassword">
+                <label for="loginPassword" class="form-label">Password</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-panel" id="signupPanel">
+        <h4 class="h2">Sign Up</h4>
+        <form>
+            <div class="mb-3 form-floating">
+                <input type="text" class="form-control" id="signupUsername">
+                <label for="signupUsername" class="form-label">Username</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <input type="email" class="form-control" id="signupEmail">
+                <label for="signupEmail" class="form-label">Email</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <input type="password" class="form-control" id="signupPassword">
+                <label for="signupPassword" class="form-label">Password</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Sliding Blur Overlay -->
+    <div class="overlay" id="overlay">
+        <div id="overlayContent">
+            <h5 class="display-6" id="overlayText">Don't have an account?</h5>
+            <span class="toggle-btn text-primary" onclick="toggleForm()">Sign up</span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Form validation 
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+        }
+        form.classList.add('was-validated');
+    });
+
+
+    // form toggle
+    const container = document.getElementById('authContainer');
+    const overlayText = document.getElementById('overlayText');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const loginPanel = document.getElementById('loginPanel');
+    const signupPanel = document.getElementById('signupPanel');
+    function toggleForm() {
+        container.classList.toggle('signup-active');
+        const isSignup = container.classList.contains('signup-active');
+
+        overlayText.textContent = isSignup
+            ? "Already have an account?"
+            : "Don't have an account?";
+
+        toggleBtn.textContent = isSignup ? "Login" : "Sign up";
+
+        loginPanel.classList.toggle('disabled', isSignup);
+        signupPanel.classList.toggle('disabled', !isSignup);
+    }
+    toggleForm();
+</script>
+
+</body>
+
+</html>
+
+
+{% endblock %}

@@ -32,4 +32,4 @@ ENV/
 Thumbs.db               # Windows
 
 # === Bootstrap ===
-node_modules/          # Node.js dependencies
+**/node_modules/          # Node.js dependencies
