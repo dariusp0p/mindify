@@ -1,0 +1,134 @@
+{% extends "core.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="container mt-5 mb-5">
+    <div class="card mb-3 shadow-lg" style="max-width: 1000px; margin: 0 auto;">
+        <div class="row g-0">
+            <!-- Event Photo -->
+            <div class="col-md-5">
+                <img src="https://via.placeholder.com/600x300" class="img-fluid rounded-start" alt="Event Photo"
+                    style="width: 100%; height: auto;">
+            </div>
+
+            <!-- Event Details -->
+            <div class="col-md-7 d-flex flex-column">
+                <div class="card-body flex-grow-1">
+                    <!-- Event Title -->
+                    <h1 class="card-title text-primary fw-bold mb-4" style="font-size: 2.5rem;">Event Title</h1>
+
+                    <!-- Event Description -->
+                    <p class="card-text" style="font-size: 1.2rem;">
+                        This is a detailed description of the event. It provides all the necessary information about the
+                        event, including what to expect, the schedule, and any other relevant details.
+                    </p>
+
+                    <!-- Number of People Joined -->
+                    <p class="card-text">
+                        <small class="text-body-secondary" style="font-size: 1rem;">
+                            <i class="bi bi-people-fill"></i> <strong>123</strong> people have joined this event.
+                        </small>
+                    </p>
+                </div>
+
+                <!-- Join or Buy Button -->
+                <div class="card-footer text-end">
+                    <!-- Join Event Button -->
+                    <!-- <a href="#" class="btn btn-primary btn-lg px-5">Join Event</a> -->
+
+                    <!-- Buy Ticket Button with Hardcoded Price -->
+                    <!-- Uncomment the following block if the event requires payment -->
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <span class="me-3 fw-bold" style="font-size: 1.2rem;">Price: $50</span>
+                        <a href="/events/checkout" class="btn btn-success btn-lg px-5">Buy Ticket</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Horizontal Scrollable Section -->
+<section class="yeye mt-3">
+    <div class="container-sm d-flex flex-column gap-4">
+        <h5 class="mt-4 mb-2 h4 text-white">More from this author</h5>
+        <div class="horizontal-scrollable">
+            <div class="d-flex gap-3">
+                <!-- Card 1 -->
+                <div class="card mb-3" style="min-width: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 1</h5>
+                        <p class="card-text">Description of Event 1. This is a short summary of the event.</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="card mb-3" style="min-width: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 2</h5>
+                        <p class="card-text">Description of Event 2. This is a short summary of the event.</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="card mb-3" style="min-width: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 3</h5>
+                        <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="card mb-3" style="min-width: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 3</h5>
+                        <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+                <div class="card mb-3" style="min-width: 300px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 3</h5>
+                        <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
+                        <a href="#" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .custom-container {
+        max-width: 800px;
+        /* Set a smaller maximum width */
+        margin: 0 auto;
+        /* Center the container */
+    }
+
+    .horizontal-scrollable {
+
+
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
+    }
+
+    .horizontal-scrollable .card {
+        display: inline-block;
+        white-space: normal;
+    }
+
+    .yeye {
+        background-image: url("{% static 'img/background1.jpg' %}");
+    }
+</style>
+
+
+{% endblock %}
