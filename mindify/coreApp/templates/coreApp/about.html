@@ -1,0 +1,50 @@
+{% extends "core.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">About Us</h1>
+        <p class="text-muted">Learn more about who we are and what we do.</p>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="mb-5">
+        <h2 class="fw-bold">Our Mission</h2>
+        <p>
+            At Mindify, our mission is to empower individuals and organizations with innovative tools and solutions that
+            enhance productivity, creativity, and collaboration. We strive to make a positive impact on the world by
+            leveraging technology to solve real-world problems.
+        </p>
+    </div>
+
+    <!-- Team Section -->
+    <div class="mb-5">
+        <h2 class="fw-bold">Meet Our Team</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                <h5>John Doe</h5>
+                <p class="text-muted">CEO & Founder</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                <h5>Jane Smith</h5>
+                <p class="text-muted">CTO</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                <h5>Emily Johnson</h5>
+                <p class="text-muted">Head of Marketing</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="text-center">
+        <h2 class="fw-bold">Get in Touch</h2>
+        <p>
+            Have questions or want to learn more? Feel free to <a href="{% url 'contact' %}">contact us</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

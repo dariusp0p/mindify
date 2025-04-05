@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from .models import User, Event, Tag
 from django.forms.models import model_to_dict
 
-def landing(request):
+
+
+# basic webite views
+def homepage(request):
     user_id = request.session.get("user_id")
 
     user = None
@@ -14,7 +17,33 @@ def landing(request):
         "user": user
     } 
 
-    return render(request, 'coreApp/landing.html', context)
+    return render(request, 'coreApp/homepage.html', context)
+
+def about(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("landing")
+    
+    user = User.objects.get(id=user_id)
+
+    context = {
+        "user": user
+    }
+    return render(request, 'coreApp/about.html')
+
+def contact(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("landing")
+    
+    user = User.objects.get(id=user_id)
+
+    context = {
+        "user": user
+    }
+    return render(request, 'coreApp/contact.html', context)
 
 def premium(request):
     user_id = request.session.get("user_id")
@@ -29,7 +58,10 @@ def premium(request):
     }
     return render(request, 'coreApp/premium.html', context)
 
-def events(request):
+
+
+# event feed
+def mainpage(request):
     user_id = request.session.get("user_id")
 
     if not user_id:
@@ -71,4 +103,35 @@ def events(request):
         "eventsFiltered": eventsFiltered,
     }
     
-    return render(request, 'coreApp/events.html', context)
+    return render(request, 'coreApp/mainpage.html', context)
+
+
+# event room
+def room(request):
+    return render(request, 'coreApp/room.html')
+
+
+
+
+
+# event CRUD
+def viewEvent(request):
+    return render(request, 'coreApp/event/event-view.html')
+
+def createEvent(request):
+    return render(request, 'coreApp/event/event-create.html')
+
+def editEvent(request):
+    return render(request, 'coreApp/event/event-edit.html')
+
+def deleteEvent(request):
+    return render(request, 'coreApp/event/event-edit.html')
+
+
+# payment views
+def checkout(request):
+    return render(request, 'coreApp/payment/payment-checkout.html')
+
+def success(request):
+    return render(request, 'coreApp/payment/payment-success.html')
+

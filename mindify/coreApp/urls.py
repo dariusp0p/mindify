@@ -3,11 +3,19 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.landing, name='landing'),
-    path('events/', views.events, name='events'),
+    path('', views.homepage, name='homepage'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
     path('premium/', views.premium, name='premium'),
-    # path('events/create', views.createEvent, name='create_event'),
-    # path('events/view', views.viewEvent, name='view_event'),
-    # path('events/checkout', views.checkout, name='checkout'),
-    # path('payment/success', views.success, name='success'),
+    path('main/', views.mainpage, name='mainpage'),
+
+    path('main/room/', views.room, name='room'),
+
+    path('event/view/', views.viewEvent, name='view_event'),
+    path('event/create/', views.createEvent, name='create_event'),
+    path('event/edit/', views.editEvent, name='edit_event'),
+    path('event/delete/', views.deleteEvent, name='delete_event'),
+
+    path('payment/checkout/', views.checkout, name='payment_checkout'),
+    path('payment/success/', views.success, name='payment_success'),
 ]
