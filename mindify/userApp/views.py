@@ -21,7 +21,6 @@ def signupLogin(request):
 
                 user = User.objects.filter(email=email).first()
                 if user and password == user.password:
-                    user.is_active = True
                     request.session['user_id'] = user.id
                     user.save()
                     return redirect('main')
@@ -39,7 +38,6 @@ def signupLogin(request):
                 if not user:
                     user = User.objects.create(username=username, email=email, password=password)
                     request.session['user_id'] = user.id
-                    user.is_active = True
                     user.save()
                     return redirect('main')
                 else:
@@ -76,25 +74,21 @@ def logout(request):
 def user(request):
     user_id = request.session.get('user_id')
     if not user_id:
-        return redirect('signup_login')
+        return redirect('signup-login')
 
     user = User.objects.filter(id=user_id).first()
     if not user:
-        return redirect('signup_login')
+        return redirect('signup-login')
     date_joined = user.date_joined.strftime('%d.%m.%Y') if user and user.date_joined else None
 
     you_are_part_of = Subscription.objects.filter(id_user=user_id, left_date=None).order_by('-joined_date')
-    number_of_subscriptions_you_are_part_of = you_are_part_of.count()
     your_events = Event.objects.filter(id_creator=user_id).order_by('-date_posted')
-    number_of_events = your_events.count()
 
     context = {
         'user': user,
         'date_joined': date_joined,
         'you_are_part_of': you_are_part_of,
         'your_events': your_events,
-        'nrOfSubscriptions': number_of_subscriptions_you_are_part_of,
-        'nrOfEvents': number_of_events,
     }
     return render(request, 'userApp/user.html', context)
 
@@ -119,11 +113,11 @@ from .forms import ProfileEditForm
 def editUser(request):
     user_id = request.session.get('user_id')
     if not user_id:
-        return redirect('signup_login')
+        return redirect('signup-login')
 
     user = User.objects.filter(id=user_id).first()
     if not user:
-        return redirect('signup_login')
+        return redirect('signup-login')
 
     if request.method == "POST":
         form = ProfileEditForm(request.POST, request.FILES)
@@ -151,109 +145,85 @@ def editUser(request):
 
     return render(request, 'userApp/edit-user.html', context)
 
-from .forms import ResetPasswordForm
 def changePassword(request):
-    user_id = request.session.get('user_id')
-    if not user_id:
-        return redirect('signup_login')
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
 
-    user = User.objects.get(id=user_id)
+    # user = User.objects.get(id=user_id)
 
-    if request.method == "POST":
-        form = ResetPasswordForm(request.POST)
-        if form.is_valid():
-            old_password = form.cleaned_data['old_password']
-            new_password = form.cleaned_data['new_password']
-            confirm_password = form.cleaned_data['confirm_password']
-            
-            if user.password != old_password:
-                return render(request, 'userApp/change-password.html', {'output': 'Parola veche este greșită', 'form': ResetPasswordForm()})
-            
-            if new_password != confirm_password:
-                return render(request, 'userApp/change-password.html', {'output': 'Parolele nu se potrivesc', 'form': ResetPasswordForm()})
+    # if request.method == "POST":
+    #     new_password = request.POST.get('new_password')
+    #     user.password = new_password
+    #     user.save()
+    #     return redirect('profile')
 
-            user.password = new_password
-            user.save()
-            return redirect('user')
-        
-    form = ResetPasswordForm()
-    return render(request, 'userApp/change-password.html', {'form': form})
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-password.html')
 
-from .forms import ChangeEmailForm
 def changeEmail(request):
-    user_id = request.session.get('user_id')
-    if not user_id:
-        return redirect('signup-login')
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
 
-    user = User.objects.get(id=user_id)
-    if request.method == "POST":
-        form = ChangeEmailForm(request.POST)
-        if form.is_valid():
-            new_email = form.cleaned_data['new_email']
-            password = form.cleaned_data['password']
+    # user = User.objects.get(id=user_id)
 
-            if User.objects.filter(email=new_email).exists():
-                return render(request, 'userApp/change-email.html', {'output': 'Email existent', 'form': ChangeEmailForm()})
-            
-            if user.password == password:
-                user.email = new_email
-                user.save()
-                return redirect('user')
-            
-    form = ChangeEmailForm()
-    return render(request, 'userApp/change-email.html', {'form': form})
+    # if request.method == "POST":
+    #     new_email = request.POST.get('new_email')
+    #     user.email = new_email
+    #     user.save()
+    #     return redirect('profile')
 
-from .forms import ChangeUsernameForm
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-email.html')
+
 def changeUsername(request):
-    user_id = request.session.get('user_id')
-    if not user_id:
-        return redirect('signup_login')
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
 
-    user = User.objects.get(id=user_id)
+    # user = User.objects.get(id=user_id)
 
-    if request.method == "POST":
-        form = ChangeUsernameForm(request.POST)
-        if form.is_valid():
-            new_username = form.cleaned_data['new_username']
-            password = form.cleaned_data['password']
-            
-            if user.password == password:
-                user.username = new_username
-                user.save()
-                return redirect('user')
-            return render(request, 'userApp/change-username.html', {'output': 'Parola greșită', 'form': ChangeUsernameForm()})
-            
-    form = ChangeUsernameForm()
-    return render(request, 'userApp/change-username.html', {'form': form})
+    # if request.method == "POST":
+    #     new_username = request.POST.get('new_username')
+    #     user.username = new_username
+    #     user.save()
+    #     return redirect('profile')
 
-from .forms import DeleteAccount
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-username.html')
+
 def deleteUser(request):
-    user_id = request.session.get('user_id')
-    if not user_id:
-        return redirect('signup_login')
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
 
-    user = User.objects.get(id=user_id)
-    if request.method == "POST":
-        form = DeleteAccount(request.POST)
-        if form.is_valid():
-            password = form.cleaned_data['password']
-            if user.password == password:
-                user.delete()
-                request.session.pop('user_id')
-                return redirect('signup_login')
-            
-    form = DeleteAccount()
-    return render(request, 'userApp/delete-user.html', {'form': form})
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     user.delete()
+    #     return redirect('signup-login')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/delete-user.html')
 
 
 def settings(request):
     user_id = request.session.get('user_id')
     if not user_id:
-        return redirect('signup_login')
+        return redirect('signup-login')
 
     user = User.objects.filter(id=user_id).first()
     if not user:
-        return redirect('signup_login')
+        return redirect('signup-login')
 
     context = {
         'user': user,

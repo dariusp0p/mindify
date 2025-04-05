@@ -27,9 +27,7 @@
 
       <!-- Right Section: Dropdown -->
       <div class="dropdown text-end d-flex align-items-center">
-        <span class="me-2">
-          Hello{% if user.first_name or user.last_name %}, {{ user.first_name }} {{ user.last_name }}!{% else %}!{% endif %}
-        </span>
+        <span class="me-2">Hello, {{ user.first_name }} {{ user.last_name }}!</span>
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
           <img src="{{ user.get_profile_photo_url }}" alt="Profile Picture" width="32" height="32"
