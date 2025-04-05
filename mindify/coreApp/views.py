@@ -72,3 +72,49 @@ def events(request):
     }
     
     return render(request, 'coreApp/events.html', context)
+
+from .models import Content
+from .utilities import extract_text_from_file
+
+def viewFileContent(request, content_id):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("landing")
+
+    user = User.objects.get(id=user_id)
+
+    content = Content.objects.get(id=content_id)
+
+    # Extragem textul din fișier
+    file_path = content.file.path
+    extracted_text = extract_text_from_file(file_path)
+
+    context = {
+        "user": user,
+        "content": content,
+        "extracted_text": extracted_text,
+    }
+
+    return render(request, 'coreApp/text_extraction_test.html', context)
+
+# chatgpt
+from .utils import chat_with_gpt
+def ai_helper(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("landing")
+
+    user = User.objects.get(id=user_id)
+
+    response = None
+
+    if request.method == "POST":
+        prompt = request.POST.get("prompt")
+        if prompt:
+            response = chat_with_gpt(prompt)
+            if not response:
+                response = "Sorry, I couldn't process your request. Please try again."
+
+    return render(request, 'coreApp/ai_helper.html', {'response': response, 'user': user})
