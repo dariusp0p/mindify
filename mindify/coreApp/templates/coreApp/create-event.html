@@ -1,0 +1,55 @@
+{% extends "forms.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg" style="max-width: 640px; margin: 0 auto;">
+        <div class="card-body">
+            <h3 class="mb-4 text-center">Create Event</h3>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Event Title -->
+                <div class="mb-3">
+                    <label for="event-title" class="form-label">Event Title</label>
+                    <input type="text" class="form-control" id="event-title" name="event_title" placeholder="Enter event title" required>
+                </div>
+
+                <!-- Event Description -->
+                <div class="mb-3">
+                    <label for="event-description" class="form-label">Event Description</label>
+                    <textarea class="form-control" id="event-description" name="event_description" rows="4" placeholder="Enter event description" required></textarea>
+                </div>
+
+                <!-- Event Date -->
+                <div class="mb-3">
+                    <label for="event-date" class="form-label">Event Date</label>
+                    <input type="date" class="form-control" id="event-date" name="event_date" required>
+                </div>
+
+                <!-- Event Photo -->
+                <div class="mb-3">
+                    <label for="event-photo" class="form-label">Event Photo</label>
+                    <input type="file" class="form-control" id="event-photo" name="event_photo" accept="image/*" required>
+                </div>
+
+                <!-- Curriculum (PDF) -->
+                <div class="mb-3">
+                    <label for="curriculum" class="form-label">Curriculum (PDF)</label>
+                    <input type="file" class="form-control" id="curriculum" name="curriculum" accept=".pdf" multiple>
+                </div>
+
+                <!-- Podcast (Audio) -->
+                <div class="mb-3">
+                    <label for="podcast" class="form-label">Podcast (Audio)</label>
+                    <input type="file" class="form-control" id="podcast" name="podcast" accept="audio/*" multiple>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
