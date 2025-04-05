@@ -144,7 +144,7 @@ class Message(models.Model):
 class Content(models.Model):
     id_event = models.ForeignKey(Event, on_delete=models.CASCADE)
     file_saved = models.FileField(upload_to="documents/")
-    audio_extracted = models.FileField(upload_to="audios/", null=True)
+    audio_extracted = models.FileField(upload_to="audios/", null=True, blank=True)
 
     def get_file_path(self):
         return self.file_saved.name  # Returns the full file path relative to MEDIA_ROOT
