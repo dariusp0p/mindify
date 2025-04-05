@@ -1,0 +1,19 @@
+{% load static %}
+
+
+<footer class="py-4 bg-dark text-white">
+    <div class="container">
+        <!-- Logo in the Middle -->
+        <div class="d-flex flex-column align-items-center mb-3">
+            <img src="{% static 'img/logo1.png' %}" alt="Logo" width="72" height="72" class="mb-2">
+            <p class="mb-0 text-center">&copy; 2024 Mindify, Inc. All rights reserved.</p>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav justify-content-center mb-0">
+            <li class="nav-item"><a href="{% url 'homepage' %}" class="nav-link px-2 text-white">Home</a></li>
+            <li class="nav-item"><a href="{% url 'about' %}" class="nav-link px-2 text-white">About</a></li>
+            <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link px-2 text-white">Contact</a></li>
+        </ul>
+    </div>
+</footer>

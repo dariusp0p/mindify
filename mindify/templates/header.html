@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <header class="p-3 border-bottom">
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-between">
@@ -12,22 +13,21 @@
       {% if user %}
       <!-- Middle Section: Navigaiton -->
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'main' %}" class="nav-link px-2">Main</a></li>
+        <li><a href="{% url 'main' %}" class="nav-link px-2">Feed</a></li>
         <li class="position-relative">
           <a href="{% url 'premium' %}" class="nav-link px-2">Premium</a>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark"
-            style="font-size: 0.6rem; transform: translate(-50%, -50%)">
-            👑
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-warning text-white"
+            style="font-size: 0.6rem; transform: translate(-70%, -70%); width: 1rem; height: 1rem; display: flex; align-items: center; justify-content: center;">
+            ★
           </span>
         </li>
-        <li><a href="{% url 'homepage' %}" class="nav-link px-2">Home</a></li>
         <li><a href="{% url 'about' %}" class="nav-link px-2">About</a></li>
         <li><a href="{% url 'contact' %}" class="nav-link px-2">Contact</a></li>
       </ul>
 
       <!-- Right Section: Dropdown -->
       <div class="dropdown text-end d-flex align-items-center">
-        <span class="me-2">Hello, {{ user.first_name }} {{ user.last_name }}!</span>
+        <span class="me-2 nav-link">Hello, {{ user.first_name }} {{ user.last_name }}!</span>
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
           <img src="{{ user.get_profile_photo_url }}" alt="Profile Picture" width="32" height="32"
@@ -63,6 +63,7 @@
     </div>
   </div>
 </header>
+
 
 <style>
   .nav-link {

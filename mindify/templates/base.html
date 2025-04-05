@@ -14,13 +14,15 @@
     />
   </head>
   <body>
-    {% include 'header.html' %} {% block content %}
-    <!--  -->
+    {% include 'header.html' %} 
+    
+    {% block content %}
     {% endblock %}
-    <!--  -->
+
     {% block scripts %}
-    <!--  -->
     {% endblock %}
+    
+    {% include 'footer.html' %}
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
   </body>
