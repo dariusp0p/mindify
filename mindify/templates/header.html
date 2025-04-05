@@ -1,63 +1,92 @@
 {% load static %}
 
-
 <header class="p-3 border-bottom">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-between">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+      <!-- Left Section: Logo -->
+      <a
+        href="/"
+        class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none"
+      >
+        <img
+          src="{% static 'img/logo1.png' %}"
+          alt="Logo"
+          width="56"
+          height="48"
+          class="me-2"
+        />
+      </a>
 
-            <!-- Left Section: Logo -->
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-                <img src="{% static 'img/logo1.png' %}" alt="Logo" width="56" height="48" class="me-2">
-            </a>
+      {% if user %}
+      <!-- Center Section: Navigation Links -->
+      <ul
+        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+      >
+        <li><a href="{% url 'events' %}" class="nav-link px-2">Events</a></li>
+        <!-- <li><a href="/premium" class="nav-link px-2">Premium</a></li> -->
+        <li class="position-relative">
+          <a href="{% url 'premium' %}" class="nav-link px-2">Premium</a>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark"
+            style="font-size: 0.6rem; transform: translate(-50%, -50%)"
+          >
+            👑
+          </span>
+        </li>
+      </ul>
 
-            <!-- Center Section: Navigation Links -->
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/events" class="nav-link px-2">Events</a></li>
-                <!-- <li><a href="/premium" class="nav-link px-2">Premium</a></li> -->
-                <li class="position-relative">
-                    <a href="/premium" class="nav-link px-2">Premium</a>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle text-dark" style="font-size: 0.6rem; transform: translate(-50%, -50%);">
-                        👑
-                    </span>
-                </li>
-            </ul>
+      <!-- Right Section: Dropdown -->
+      <div class="dropdown text-end d-flex align-items-center">
+        <span class="me-2"
+          >Hello, {{ user.first_name }} {{ user.last_name }}!</span
+        >
 
-            <!-- Right Section: Dropdown -->
-            <div class="dropdown text-end d-flex align-items-center">
-                <span class="me-2">Hello, John Doe!</span>
-                
-                <!-- Dropdown -->
-                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-                </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="/events/create">New event...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
-                </ul>
-            </div>
-
-            <!-- Login Button -->
-            <!-- <div class="text-end">
-                <a href="/user/signup-login" class="btn btn-outline-primary me-2">Log In</a>
-            </div> -->
-        </div>
+        <!-- Dropdown -->
+        <a
+          href="#"
+          class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            src="{{ user.get_profile_photo_url }}"
+            alt="Profile Picture"
+            width="32"
+            height="32"
+            class="rounded-circle"
+          />
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" href="#">New event...</a></li>
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+          </li>
+        </ul>
+      </div>
+      {% else %}
+      <!-- Login Button -->
+      <div class="text-end">
+        <a href="{% url 'signup_login' %}" class="btn btn-outline-primary me-2"
+          >Log In</a
+        >
+      </div>
+      {% endif %}
     </div>
+  </div>
 </header>
 
-
 <style>
-    .nav-link {
-        color: inherit;
-        transition: color 0.3s ease;
-    }
+  .nav-link {
+    color: inherit;
+    transition: color 0.3s ease;
+  }
 
-    .nav-link:hover {
-        color: var(--bs-primary);
-    }
+  .nav-link:hover {
+    color: var(--bs-primary);
+  }
 </style>

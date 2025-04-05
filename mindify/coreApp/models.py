@@ -37,8 +37,8 @@ class User(models.Model):
                 os.remove(old_file.path)
 
     def get_profile_photo_url(self):
-        if self.profile_photo:
-            return self.profile_photo.url
+        if self.profile_picture:
+            return self.profile_picture.url
         
         # Alege poza default în funcție de gen
         if not self.gender:

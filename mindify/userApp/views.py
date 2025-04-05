@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 
-# def signup_login(request):
-#     return render(request, 'userApp/signup-login.html')
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import datetime
 
 from .forms import SignUpForm, LoginForm
 from coreApp.models import User
@@ -48,104 +49,34 @@ def signInSignOutView(request):
     }
     return render(request, 'userApp/signup-login.html', context)
 
-def profile(request):
-    # user_id = request.session.get('user_id')
-    # if not user_id:
-    #     return redirect('signup-login')
 
-    # user = User.objects.get(id=user_id)
-    # context = {
-    #     'user': user,
-    # }
-    return render(request, 'userApp/profile.html')
+def logoutView(request):
+    user_id = request.session.get("user_id")
+
+    if not user_id:
+        return redirect("landing")
+
+    user = User.objects.get(id=user_id)
+
+    user.active_now = False
+    user.save()
+    update_last_online(request)
+    request.session.pop("user_id")
+    return redirect('landing')
 
 
-def profileEdit(request):
-    # user_id = request.session.get('user_id')
-    # if not user_id:
-    #     return redirect('signup-login')
+@csrf_exempt
+def update_last_online(request):
+    """Actualizează last_time_online la ieșirea utilizatorului"""
+    user_id = request.session.get('user_id')
 
-    # user = User.objects.get(id=user_id)
+    if not user_id:  # Dacă sesiunea nu există, nu face nimic
+        return JsonResponse({"status": "session expired"}, status=403)
 
-    # if request.method == "POST":
-    #     user.username = request.POST.get('username')
-    #     user.email = request.POST.get('email')
-    #     user.password = request.POST.get('password')
-    #     user.save()
-    #     return redirect('profile')
-
-    # context = {
-    #     'user': user,
-    # }
-    return render(request, 'userApp/edit-profile.html')
-
-def changePassword(request):
-    # user_id = request.session.get('user_id')
-    # if not user_id:
-    #     return redirect('signup-login')
-
-    # user = User.objects.get(id=user_id)
-
-    # if request.method == "POST":
-    #     new_password = request.POST.get('new_password')
-    #     user.password = new_password
-    #     user.save()
-    #     return redirect('profile')
-
-    # context = {
-    #     'user': user,
-    # }
-    return render(request, 'userApp/change-password.html')
-
-def changeEmail(request):
-    # user_id = request.session.get('user_id')
-    # if not user_id:
-    #     return redirect('signup-login')
-
-    # user = User.objects.get(id=user_id)
-
-    # if request.method == "POST":
-    #     new_email = request.POST.get('new_email')
-    #     user.email = new_email
-    #     user.save()
-    #     return redirect('profile')
-
-    # context = {
-    #     'user': user,
-    # }
-    return render(request, 'userApp/change-email.html')
-
-def changeUsername(request):
-    # user_id = request.session.get('user_id')
-    # if not user_id:
-    #     return redirect('signup-login')
-
-    # user = User.objects.get(id=user_id)
-
-    # if request.method == "POST":
-    #     new_username = request.POST.get('new_username')
-    #     user.username = new_username
-    #     user.save()
-    #     return redirect('profile')
-
-    # context = {
-    #     'user': user,
-    # }
-    return render(request, 'userApp/change-username.html')
-
-def deleteUser(request):
-    # user_id = request.session.get('user_id')
-    # if not user_id:
-    #     return redirect('signup-login')
-
-    # user = User.objects.get(id=user_id)
-
-    # if request.method == "POST":
-    #     user.delete()
-    #     return redirect('signup-login')
-
-    # context = {
-    #     'user': user,
-    # }
-    return render(request, 'userApp/delete-user.html')
-
+    try:
+        user = User.objects.get(id=user_id)
+        user.last_login = datetime.datetime.now()
+        user.save()
+        return JsonResponse({"status": "success"})
+    except User.DoesNotExist:
+        return JsonResponse({"status": "error"}, status=404)
