@@ -9,7 +9,7 @@
     <!-- Login Form -->
     <div class="form-panel" id="loginPanel">
         <h4 class="h2">Login</h4>
-        <form>
+        <form novalidate>
             <div class="mb-3 form-floating">
                 <input type="email" class="form-control" id="loginEmail">
                 <label for="loginEmail" class="form-label">Email</label>
@@ -25,7 +25,7 @@
     <!-- Signup Form -->
     <div class="form-panel" id="signupPanel">
         <h4 class="h2">Sign Up</h4>
-        <form>
+        <form novalidate>
             <div class="mb-3 form-floating">
                 <input type="text" class="form-control" id="signupUsername">
                 <label for="signupUsername" class="form-label">Username</label>
@@ -54,13 +54,15 @@
 
 <script>
     // Form validation 
-    const form = document.querySelector('form');
-    form.addEventListener('submit', (e) => {
-        if (!form.checkValidity()) {
-            e.preventDefault();
-        }
-        form.classList.add('was-validated');
-    });
+    const forms = document.querySelectorAll('form');
+    for (let form of forms) {
+        form.addEventListener('submit', (e) => {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+            }
+            form.classList.add('was-validated');
+        });
+    }
 
 
     // form toggle
