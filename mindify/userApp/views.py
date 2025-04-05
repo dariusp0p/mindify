@@ -8,7 +8,7 @@ from .forms import SignUpForm, LoginForm
 from coreApp.models import User
 from datetime import datetime
 
-
+from coreApp.models import Subscription, Event
 
 # signup-login-logout views
 def signupLogin(request):
@@ -82,13 +82,16 @@ def user(request):
         return redirect('signup-login')
     date_joined = user.date_joined.strftime('%d.%m.%Y') if user and user.date_joined else None
 
+    you_are_part_of = Subscription.objects.filter(id_user=user_id, left_date=None).order_by('-joined_date')
+    your_events = Event.objects.filter(id_creator=user_id).order_by('-date_posted')
+
     context = {
         'user': user,
         'date_joined': date_joined,
+        'you_are_part_of': you_are_part_of,
+        'your_events': your_events,
     }
     return render(request, 'userApp/user.html', context)
-
-
 
 @csrf_exempt
 def update_last_online(request):

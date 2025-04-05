@@ -116,12 +116,10 @@ class Subscription(models.Model):
     id_event = models.ForeignKey(Event, on_delete=models.CASCADE)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     joined_date = models.DateTimeField(auto_now_add=True)
-    left_date = models.DateTimeField(null=True)
+    left_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        user = User.objects.get(id=self.id_user)
-        event = Event.objects.get(id=self.id_user)
-        return f"{user.username} - {event.title}"
+        return f"{self.id_user.username} - {self.id_event.title}"
 
     class Meta:
         unique_together = (('id_event', 'id_user'),)
