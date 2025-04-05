@@ -60,7 +60,7 @@
                   margin-right: 8px;
                 "
               ></span>
-              <span class="text-muted small">{{ user.last_login }}</span>
+              <span class="text-muted small">Last login: {{ user.last_login|date:"d.m, H:i" }}</span>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@
             <span>First Name: <strong>{{ user.first_name }}</strong></span>
             <span>Last Name: <strong>{{ user.last_name }}</strong></span>
           </p>
-          <p>Gender: <strong>{{ user.gender }}</strong></p>
+          <p>Gender: <strong>{{ user.gender|capfirst }}</strong></p>
           <p>Date Joined: <strong>{{ date_joined }}</strong></p>
 
           <!-- Action Buttons -->
@@ -118,7 +118,11 @@
   <h5 class="mb-3">Your Events</h5>
   <div class="horizontal-scrollable">
     <div class="d-flex gap-3">
-      <!-- Card 1 -->
+      {% if nrOfEvents == 0 %}
+        <div class="alert alert-info" role="alert">
+          You have no events yet. Create one to get started!
+        </div>
+      {% endif %}
       {% for event in your_events %}
         <div class="card mb-3" style="min-width: 300px">
           <div class="card-body">
@@ -137,6 +141,11 @@
   <h5 class="mb-3">You are part of</h5>
   <div class="horizontal-scrollable">
     <div class="d-flex gap-3">
+      {% if nrOfSubscriptions == 0 %}
+        <div class="alert alert-info" role="alert">
+          You are not subscribed to any events yet.
+        </div>
+      {% endif %} 
       {% for subscription in you_are_part_of %}
         <div class="card mb-3" style="min-width: 300px">
           <div class="card-body">

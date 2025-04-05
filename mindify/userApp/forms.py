@@ -54,3 +54,52 @@ class ProfileEditForm(forms.Form):
             'class': 'form-control form-floating',
             'id': 'profileGender'
         }))
+    
+class ResetPasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'Old Password',
+        'id': 'oldPassword'
+    }))
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'New Password',
+        'id': 'newPassword'
+    }))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'Confirm Password',
+        'id': 'confirmPassword'
+    }))
+
+class ChangeEmailForm(forms.Form):
+    new_email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'New Email',
+        'id': 'newEmail'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'Password',
+        'id': 'emailPassword'
+    }))
+
+class ChangeUsernameForm(forms.Form):
+    new_username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'New Username',
+        'id': 'newUsername'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'Password',
+        'id': 'usernamePassword'
+    }))
+
+class DeleteAccount(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'Password',
+        'id': 'deletePassword',
+        'required': True
+    }))
