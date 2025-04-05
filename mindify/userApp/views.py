@@ -6,7 +6,6 @@ import datetime
 
 from .forms import SignUpForm, LoginForm
 from coreApp.models import User
-from datetime import datetime
 
 from coreApp.models import Subscription, Event
 
