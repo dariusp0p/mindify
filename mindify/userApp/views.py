@@ -6,6 +6,7 @@ import datetime
 
 from .forms import SignUpForm, LoginForm
 from coreApp.models import User
+from datetime import datetime
 
 def signInSignOutView(request):
     if request.method == "POST":
@@ -49,6 +50,21 @@ def signInSignOutView(request):
     }
     return render(request, 'userApp/signup-login.html', context)
 
+def profile(request):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('signup-login')
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return redirect('signup-login')
+    date_joined = user.date_joined.strftime('%d.%m.%Y') if user and user.date_joined else None
+
+    context = {
+        'user': user,
+        'date_joined': date_joined,
+    }
+    return render(request, 'userApp/profile.html', context)
 
 def logoutView(request):
     user_id = request.session.get("user_id")
@@ -63,7 +79,6 @@ def logoutView(request):
     update_last_online(request)
     request.session.pop("user_id")
     return redirect('landing')
-
 
 @csrf_exempt
 def update_last_online(request):
@@ -80,3 +95,109 @@ def update_last_online(request):
         return JsonResponse({"status": "success"})
     except User.DoesNotExist:
         return JsonResponse({"status": "error"}, status=404)
+
+from .forms import ProfileEditForm
+def profileEdit(request):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('signup-login')
+
+    user = User.objects.filter(id=user_id).first()
+    if not user:
+        return redirect('signup-login')
+
+    if request.method == "POST":
+        form = ProfileEditForm(request.POST, request.FILES)
+        if form.is_valid():
+            user.first_name = form.cleaned_data.get('first_name', user.first_name)
+            user.last_name = form.cleaned_data.get('last_name', user.last_name)
+            user.gender = form.cleaned_data.get('gender', user.gender)
+            if form.cleaned_data.get('profile_picture'):
+                user.profile_picture = form.cleaned_data['profile_picture']
+            user.save()
+            return redirect('profile')
+    else:
+       
+        initial_data = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'gender': user.gender,
+            'profile_picture': user.profile_picture,
+        }
+        form = ProfileEditForm(initial=initial_data)
+        context = {
+            'form': form,
+            'pfp': user.profile_picture.url if user.profile_picture else None,
+        }
+
+    return render(request, 'userApp/edit-profile.html', context)
+
+def changePassword(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     new_password = request.POST.get('new_password')
+    #     user.password = new_password
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-password.html')
+
+def changeEmail(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     new_email = request.POST.get('new_email')
+    #     user.email = new_email
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-email.html')
+
+def changeUsername(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     new_username = request.POST.get('new_username')
+    #     user.username = new_username
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-username.html')
+
+def deleteUser(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     user.delete()
+    #     return redirect('signup-login')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/delete-user.html')

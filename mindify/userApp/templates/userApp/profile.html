@@ -1,184 +1,249 @@
-{% extends "core.html" %}
-
-{% block content %}
-
+{% extends "core.html" %} {% block content %}
 
 <div class="container-sm mt-5 d-flex justify-content-center flex-column gap-4">
-    <!-- Profile Card -->
-    <div class="card shadow-lg profile-card ms-auto me-auto" style="max-width: 720px; width: 100%;">
+  <!-- Profile Card -->
+  <div
+    class="card shadow-lg profile-card ms-auto me-auto"
+    style="max-width: 720px; width: 100%"
+  >
+    <div class="card-body">
+      <div class="row align-items-center">
+        <!-- Profile Picture and Status -->
+        <div class="col-md-4 text-center">
+          <!-- Larger Profile Picture -->
+          <img
+            src="{{ user.get_profile_photo_url }}"
+            alt="Profile Picture"
+            class="rounded-circle mb-3 border"
+            style="width: 200px; height: 200px"
+          />
+
+          <!-- Status Card -->
+          <div
+            class="card bg-light border-0 shadow-sm"
+            style="max-width: 200px; margin: 0 auto"
+          >
+            <div
+              class="card-body p-2 d-flex align-items-center justify-content-center"
+            >
+              <!-- Green Bubble for Active -->
+              <span
+                class="rounded-circle bg-success"
+                style="
+                  width: 10px;
+                  height: 10px;
+                  display: inline-block;
+                  margin-right: 8px;
+                "
+              ></span>
+              <span class="text-muted small">
+                {% if user.is_active%} Active {% else %} Inactive {% endif %}
+              </span>
+            </div>
+          </div>
+
+          <!-- Uncomment this block for "Last Online" status -->
+
+          <div
+            class="card bg-light border-0 shadow-sm"
+            style="max-width: 200px; margin: 0 auto"
+          >
+            <div
+              class="card-body p-2 d-flex align-items-center justify-content-center"
+            >
+              <span
+                class="rounded-circle bg-danger"
+                style="
+                  width: 10px;
+                  height: 10px;
+                  display: inline-block;
+                  margin-right: 8px;
+                "
+              ></span>
+              <span class="text-muted small">{{ user.last_login }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="col-md-8">
+          <h3 class="display-6">Profile Details</h3>
+          <p>
+            Username: <strong>{{ user.username }}</strong>
+            <a
+              href="/user/profile/change-username"
+              class="text-primary ms-2"
+              title="Edit Username"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </p>
+          <p>
+            Email: <strong>{{ user.email }}</strong>
+            <a
+              href="/user/profile/change-email"
+              class="text-primary ms-2"
+              title="Edit Email"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </p>
+          <p class="d-flex gap-4">
+            <span>First Name: <strong>{{ user.first_name }}</strong></span>
+            <span>Last Name: <strong>{{ user.last_name }}</strong></span>
+          </p>
+          <p>Gender: <strong>{{ user.gender }}</strong></p>
+          <p>Date Joined: <strong>{{ date_joined }}</strong></p>
+
+          <!-- Action Buttons -->
+          <div class="mt-4 d-flex flex-wrap gap-2 justify-content-end">
+            <a href="/user/profile/edit" class="btn btn-outline-primary"
+              >Edit Profile</a
+            >
+            <a
+              href="/user/profile/change-password"
+              class="btn btn-outline-primary"
+              >Change Password</a
+            >
+            <a href="/user/profile/delete-user" class="btn btn-outline-danger"
+              >Delete Account</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Horizontal Scrollable Section -->
+  <h5 class="mb-3">Your Events</h5>
+  <div class="horizontal-scrollable">
+    <div class="d-flex gap-3">
+      <!-- Card 1 -->
+      <div class="card mb-3" style="min-width: 300px">
         <div class="card-body">
-            <div class="row align-items-center">
-                <!-- Profile Picture and Status -->
-                <div class="col-md-4 text-center">
-                    <!-- Larger Profile Picture -->
-                    <img src="https://via.placeholder.com/200" alt="Profile Picture" class="rounded-circle mb-3 border"
-                        style="width: 200px; height: 200px;">
-
-                    <!-- Status Card -->
-                    <div class="card bg-light border-0 shadow-sm" style="max-width: 200px; margin: 0 auto;">
-                        <div class="card-body p-2 d-flex align-items-center justify-content-center">
-                            <!-- Green Bubble for Active -->
-                            <span class="rounded-circle bg-success"
-                                style="width: 10px; height: 10px; display: inline-block; margin-right: 8px;"></span>
-                            <span class="text-muted small">Active</span>
-                        </div>
-                    </div>
-
-                    <!-- Uncomment this block for "Last Online" status -->
-
-                    <div class="card bg-light border-0 shadow-sm" style="max-width: 200px; margin: 0 auto;">
-                        <div class="card-body p-2 d-flex align-items-center justify-content-center">
-                            <span class="rounded-circle bg-danger"
-                                style="width: 10px; height: 10px; display: inline-block; margin-right: 8px;"></span>
-                            <span class="text-muted small">Last Online: 2025-04-05 14:30</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Profile Details -->
-                <div class="col-md-8">
-                    <h3 class="display-6">Profile Details</h3>
-                    <p>
-                        Username: <strong>johndoe</strong>
-                        <a href="/user/profile/change-username" class="text-primary ms-2" title="Edit Username">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                    </p>
-                    <p>
-                        Email: <strong>john.doe@example.com</strong>
-                        <a href="/user/profile/change-email" class="text-primary ms-2" title="Edit Email">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                    </p>
-                    <p class="d-flex gap-4">
-                        <span>First Name: <strong>John</strong></span>
-                        <span>Last Name: <strong>Doe</strong></span>
-                    </p>
-                    <p>Gender: <strong>Male</strong></p>
-                    <p>Date Joined: <strong>2023-01-15</strong></p>
-
-                    <!-- Action Buttons -->
-                    <div class="mt-4 d-flex flex-wrap gap-2 justify-content-end">
-                        <a href="/user/profile/edit" class="btn btn-outline-primary">Edit Profile</a>
-                        <a href="/user/profile/change-password" class="btn btn-outline-primary">Change Password</a>
-                        <a href="/user/profile/delete-user" class="btn btn-outline-danger">Delete Account</a>
-                    </div>
-                </div>
-            </div>
+          <h5 class="card-title">Event 1</h5>
+          <p class="card-text">
+            Description of Event 1. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
         </div>
-    </div>
-
-    <!-- Horizontal Scrollable Section -->
-    <h5 class="mb-3">Your Events</h5>
-    <div class="horizontal-scrollable">
-        <div class="d-flex gap-3">
-            <!-- Card 1 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 1</h5>
-                    <p class="card-text">Description of Event 1. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 2</h5>
-                    <p class="card-text">Description of Event 2. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <!-- Card 4 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 2</h5>
+          <p class="card-text">
+            Description of Event 2. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
         </div>
-    </div>
-
-    <!-- Horizontal Scrollable Section -->
-    <h5 class="mb-3">You are part of</h5>
-    <div class="horizontal-scrollable">
-        <div class="d-flex gap-3">
-            <!-- Card 1 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 1</h5>
-                    <p class="card-text">Description of Event 1. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 2</h5>
-                    <p class="card-text">Description of Event 2. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <!-- Card 4 -->
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <div class="card mb-3" style="min-width: 300px;">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 3</h5>
+          <p class="card-text">
+            Description of Event 3. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
         </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 3</h5>
+          <p class="card-text">
+            Description of Event 3. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 3</h5>
+          <p class="card-text">
+            Description of Event 3. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Horizontal Scrollable Section -->
+  <h5 class="mb-3">You are part of</h5>
+  <div class="horizontal-scrollable">
+    <div class="d-flex gap-3">
+      <!-- Card 1 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 1</h5>
+          <p class="card-text">
+            Description of Event 1. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 2</h5>
+          <p class="card-text">
+            Description of Event 2. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 3</h5>
+          <p class="card-text">
+            Description of Event 3. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 3</h5>
+          <p class="card-text">
+            Description of Event 3. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+      <div class="card mb-3" style="min-width: 300px">
+        <div class="card-body">
+          <h5 class="card-title">Event 3</h5>
+          <p class="card-text">
+            Description of Event 3. This is a short summary of the event.
+          </p>
+          <a href="#" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
-    .custom-container {
-        max-width: 800px;
-        /* Set a smaller maximum width */
-        margin: 0 auto;
-        /* Center the container */
-    }
+  .custom-container {
+    max-width: 800px;
+    /* Set a smaller maximum width */
+    margin: 0 auto;
+    /* Center the container */
+  }
 
-    .horizontal-scrollable {
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 10px;
-    }
+  .horizontal-scrollable {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+  }
 
-    .horizontal-scrollable .card {
-        display: inline-block;
-        white-space: normal;
-    }
+  .horizontal-scrollable .card {
+    display: inline-block;
+    white-space: normal;
+  }
 </style>
 {% endblock %}

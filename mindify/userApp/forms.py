@@ -28,3 +28,29 @@ class SignUpForm(forms.Form):
         'placeholder': 'Password',
         'id': 'signupPassword'
     }))
+
+class ProfileEditForm(forms.Form):
+    profile_picture = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={
+        'class': 'form-control form-floating',
+        'id': 'profilePicture'
+    }))
+    first_name = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'First Name',
+        'id': 'profileFirstName'
+    }))
+    last_name = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control form-floating',
+        'placeholder': 'Last Name',
+        'id': 'profileLastName'
+    }))
+    gender = forms.ChoiceField(
+        required=False,
+        choices=[
+            ('male', 'Male'),
+            ('female', 'Female'),
+        ],
+        widget=forms.Select(attrs={
+            'class': 'form-control form-floating',
+            'id': 'profileGender'
+        }))
