@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Bucharest'
 
 USE_I18N = True
 
@@ -122,9 +122,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = [
-    BASE_DIR / 'mindify' / 'static',  
+    BASE_DIR / 'mindify' / 'static',  # this points to the static folder you are using
 ]
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
