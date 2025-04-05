@@ -1,286 +1,229 @@
-{% extends "core.html" %}
-
-{% block content %}
-
+{% extends "core.html" %} {% block content %}
 
 <header class="border-bottom p-2 mb-5">
-    <div class="container d-flex flex-wrap justify-content-center">
-        <form class="col-12 col-lg-6" role="search" style="margin-top: 0;">
-            <input type="search" class="form-control form-control-sm" placeholder="Search..." aria-label="Search"
-                style="height: 36px;">
-        </form>
-    </div>
+  <div class="container d-flex flex-wrap justify-content-center">
+    <form class="col-12 col-lg-6" role="search" style="margin-top: 0">
+      <input
+        type="search"
+        class="form-control form-control-sm"
+        placeholder="Search..."
+        aria-label="Search"
+        style="height: 36px"
+      />
+    </form>
+  </div>
 </header>
 
 <!-- Carousel Section -->
 <div class="container my-4">
-    <h5>Recommended Events</h5>
+  <h5>Recommended Events</h5>
 </div>
 
 <div class="container my-4">
-    <div class="row justify-content-center">
-        <!-- Card 1 -->
-        <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Event 1</h5>
-                    <p class="card-text">Description of Event 1.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Event 2</h5>
-                    <p class="card-text">Description of Event 2.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
+  <div class="row justify-content-center">
+    <!-- Card 1 -->
+  </div>
 </div>
 
 <style>
-    .card {
-        box-shadow: 2px 6px 8px rgba(22, 22, 26, 0.18);
-        border: none;
-        border-radius: 0.5em;
-    }
+  .card {
+    box-shadow: 2px 6px 8px rgba(22, 22, 26, 0.18);
+    border: none;
+    border-radius: 0.5em;
+  }
 </style>
 
-
-
-
-
 <div class="container mt-4">
-    <div class="row">
-        <!-- Left Sidebar: Filters -->
-        <div class="col-md-3">
-            <h5>Filters</h5>
-            <form method="GET" action="#">
-                <!-- Free/Paid Filter -->
-                <h6 class="mt-3">Type</h6>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <input type="checkbox" id="filterFree" name="type" value="free" class="form-check-input me-2">
-                        <label for="filterFree" class="form-check-label">Free</label>
-                    </li>
-                    <li class="list-group-item">
-                        <input type="checkbox" id="filterPaid" name="type" value="paid" class="form-check-input me-2">
-                        <label for="filterPaid" class="form-check-label">Paid</label>
-                    </li>
-                </ul>
+  <div class="row">
+    <!-- Left Sidebar: Filters -->
+    <div class="col-md-3">
+      <h5>Filters</h5>
+      <form method="GET" action="#">
+        <!-- Free/Paid Filter -->
+        <h6 class="mt-3">Type</h6>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <input
+              type="checkbox"
+              id="filterFree"
+              name="type"
+              value="Free"
+              class="form-check-input me-2"
+            />
+            <label for="filterFree" class="form-check-label">Free</label>
+          </li>
+          <li class="list-group-item">
+            <input
+              type="checkbox"
+              id="filterPaid"
+              name="type"
+              value="Paid"
+              class="form-check-input me-2"
+            />
+            <label for="filterPaid" class="form-check-label">Paid</label>
+          </li>
+        </ul>
 
-                <!-- Categories Filter -->
-                <h6 class="mt-3">Categories</h6>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <input type="checkbox" id="filterPython" name="category" value="python"
-                            class="form-check-input me-2">
-                        <label for="filterPython" class="form-check-label">Python</label>
-                    </li>
-                    <li class="list-group-item">
-                        <input type="checkbox" id="filterWebDev" name="category" value="web-development"
-                            class="form-check-input me-2">
-                        <label for="filterWebDev" class="form-check-label">Web Development</label>
-                    </li>
-                    <li class="list-group-item">
-                        <input type="checkbox" id="filterAI" name="category" value="ai" class="form-check-input me-2">
-                        <label for="filterAI" class="form-check-label">AI</label>
-                    </li>
-                </ul>
+        <!-- Categories Filter -->
+        <h6 class="mt-3">Categories</h6>
+        <ul class="list-group">
+          {% for tag in tags %}
+          <li class="list-group-item">
+            <input
+              type="checkbox"
+              id="filter_{{tag}}"
+              name="category"
+              value="{{ tag }}"
+              class="form-check-input me-2"
+            />
+            <label for="filter_{{tag}}" class="form-check-label"
+              >{{ tag }}</label
+            >
+          </li>
+          {% endfor %}
+        </ul>
 
-                <!-- Date Filter -->
-                <!-- <h6 class="mt-3">Date</h6>
+        <!-- Date Filter -->
+        <!-- <h6 class="mt-3">Date</h6>
                 <div class="mb-3">
                     <label for="filterDate" class="form-label">Select Date</label>
                     <input type="date" id="filterDate" name="date" class="form-control">
                 </div> -->
-                <!-- Date Filter -->
-                <h6 class="mt-3">Date Range</h6>
-                <div class="d-flex gap-2">
-                    <div class="flex-fill">
-                        <label for="filterDateFrom" class="form-label">From</label>
-                        <input type="date" id="filterDateFrom" name="date_from" class="form-control">
-                    </div>
-                    <div class="flex-fill">
-                        <label for="filterDateTo" class="form-label">To</label>
-                        <input type="date" id="filterDateTo" name="date_to" class="form-control">
-                    </div>
-                </div>
-
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary w-100 mt-3">Submit Filter</button>
-            </form>
+        <!-- Date Filter -->
+        <h6 class="mt-3">Date Range</h6>
+        <div class="d-flex gap-2">
+          <div class="flex-fill">
+            <label for="filterDateFrom" class="form-label">From</label>
+            <input
+              type="date"
+              id="filterDateFrom"
+              name="date_from"
+              class="form-control"
+            />
+          </div>
+          <div class="flex-fill">
+            <label for="filterDateTo" class="form-label">To</label>
+            <input
+              type="date"
+              id="filterDateTo"
+              name="date_to"
+              class="form-control"
+            />
+          </div>
         </div>
 
-        <!-- Center Content: Event Feed -->
-        <div class="col-md-6">
-            <h5>Event Feed</h5>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Event 1</h5>
-                    <p class="card-text">Description of Event 1. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Event 2</h5>
-                    <p class="card-text">Description of Event 2. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Event 3</h5>
-                    <p class="card-text">Description of Event 3. This is a short summary of the event.</p>
-                    <a href="#" class="btn btn-primary">View Details</a>
-                </div>
-            </div>
-        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100 mt-3">
+          Submit Filter
+        </button>
+      </form>
+    </div>
 
-        <!-- Right Sidebar: Updated Content -->
-<div class="col-md-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Center Content: Event Feed -->
+    <div class="col-md-6">
+      <h5>Event Feed</h5>
+      <div class="card mb-3">
+        {% for event in eventsFiltered %}
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">{{ event.title }}</h5>
+              <p class="card-text">{{ event.description }}</p>
+              <a href="#" class="btn btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right Sidebar: Updated Content -->
+    <div class="col-md-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0">Your Events</h5>
         <a href="#" class="btn btn-primary btn-sm">Create</a>
-    </div>
+      </div>
 
-    <!-- First Scrollable Table -->
-    <h6>Paid Events</h6>
-    <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+      <!-- First Scrollable Table -->
+      <h6>Paid Events</h6>
+      <div class="table-responsive" style="max-height: 200px; overflow-y: auto">
         <table class="table table-borderless table-sm custom-table">
-            <thead class="table-light">
-                <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Price</th>
-                    <th>Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Event A</td>
-                    <td>2025-04-10</td>
-                    <td>$20</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event B</td>
-                    <td>2025-04-15</td>
-                    <td>Free</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event C</td>
-                    <td>2025-04-20</td>
-                    <td>$50</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event D</td>
-                    <td>2025-04-25</td>
-                    <td>$30</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event E</td>
-                    <td>2025-04-30</td>
-                    <td>$40</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-            </tbody>
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in premiumEvents %}
+            <tr>
+              <td>{{ event.title }}...</td>
+              <td>{{ event.date_posted }}</td>
+              <td>{{ event.price }}$</td>
+              <td>
+                <a href="#" class="text-primary"
+                  ><i class="bi bi-pencil-square"></i
+                ></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
         </table>
-    </div>
+      </div>
 
-    <!-- Second Scrollable Table -->
-    <h6 class="mt-4">Free Events</h6>
-    <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+      <!-- Second Scrollable Table -->
+      <h6 class="mt-4">Free Events</h6>
+      <div class="table-responsive" style="max-height: 200px; overflow-y: auto">
         <table class="table table-borderless table-sm custom-table">
-            <thead class="table-light">
-                <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Price</th>
-                    <th>Edit</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Event X</td>
-                    <td>2025-03-10</td>
-                    <td>$30</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event Y</td>
-                    <td>2025-03-05</td>
-                    <td>Free</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event Z</td>
-                    <td>2025-02-28</td>
-                    <td>$15</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event W</td>
-                    <td>2025-02-20</td>
-                    <td>$25</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-                <tr>
-                    <td>Event V</td>
-                    <td>2025-02-15</td>
-                    <td>$10</td>
-                    <td><a href="#" class="text-primary"><i class="bi bi-pencil-square"></i></a></td>
-                </tr>
-            </tbody>
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in freeEvents %}
+            <tr>
+              <td>{{ event.title }}...</td>
+              <td>{{ event.date_posted }}</td>
+              <td>Free</td>
+              <td>
+                <a href="#" class="text-primary"
+                  ><i class="bi bi-pencil-square"></i
+                ></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
         </table>
+      </div>
     </div>
-</div>
-    </div>
+  </div>
 </div>
 
 <style>
-    /* Ensure the table container is scrollable and not too tall */
-    .table-responsive {
-        max-height: 200px;
-        /* Limit the height of the table container */
-        overflow-y: auto;
-        /* Enable vertical scrolling */
-    }
+  /* Ensure the table container is scrollable and not too tall */
+  .table-responsive {
+    max-height: 200px;
+    /* Limit the height of the table container */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+  }
 
-    /* Add borders only between rows */
-    .custom-table tbody tr {
-        border-bottom: 1px solid #dee2e6;
-        /* Light gray border */
-    }
+  /* Add borders only between rows */
+  .custom-table tbody tr {
+    border-bottom: 1px solid #dee2e6;
+    /* Light gray border */
+  }
 
-    .custom-table tbody tr:last-child {
-        border-bottom: none;
-        /* Remove border for the last row */
-    }
+  .custom-table tbody tr:last-child {
+    border-bottom: none;
+    /* Remove border for the last row */
+  }
 </style>
-
 
 {% endblock %}
