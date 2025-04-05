@@ -41,6 +41,7 @@
           >Hello, {{ user.first_name }} {{ user.last_name }}!</span
         >
 
+<<<<<<< HEAD
         <!-- Dropdown -->
         <a
           href="#"
@@ -76,6 +77,33 @@
         >
       </div>
       {% endif %}
+=======
+            <!-- Right Section: Dropdown -->
+            <div class="dropdown text-end d-flex align-items-center">
+                <span class="me-2">Hello, John Doe!</span>
+                
+                <!-- Dropdown -->
+                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small">
+                    <li><a class="dropdown-item" href="#">New event...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+
+            <!-- Login Button -->
+            <!-- <div class="text-end">
+                <a href="/user/signup-login" class="btn btn-outline-primary me-2">Log In</a>
+            </div> -->
+        </div>
+>>>>>>> e67de0fbacb37574ec0116d7999a8d006fb30b65
     </div>
   </div>
 </header>

@@ -49,6 +49,7 @@ def signInSignOutView(request):
     }
     return render(request, 'userApp/signup-login.html', context)
 
+<<<<<<< HEAD
 
 def logoutView(request):
     user_id = request.session.get("user_id")
@@ -80,3 +81,106 @@ def update_last_online(request):
         return JsonResponse({"status": "success"})
     except User.DoesNotExist:
         return JsonResponse({"status": "error"}, status=404)
+=======
+def profile(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/profile.html')
+
+
+def profileEdit(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     user.username = request.POST.get('username')
+    #     user.email = request.POST.get('email')
+    #     user.password = request.POST.get('password')
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/edit-profile.html')
+
+def changePassword(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     new_password = request.POST.get('new_password')
+    #     user.password = new_password
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-password.html')
+
+def changeEmail(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     new_email = request.POST.get('new_email')
+    #     user.email = new_email
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-email.html')
+
+def changeUsername(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     new_username = request.POST.get('new_username')
+    #     user.username = new_username
+    #     user.save()
+    #     return redirect('profile')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/change-username.html')
+
+def deleteUser(request):
+    # user_id = request.session.get('user_id')
+    # if not user_id:
+    #     return redirect('signup-login')
+
+    # user = User.objects.get(id=user_id)
+
+    # if request.method == "POST":
+    #     user.delete()
+    #     return redirect('signup-login')
+
+    # context = {
+    #     'user': user,
+    # }
+    return render(request, 'userApp/delete-user.html')
+
+>>>>>>> e67de0fbacb37574ec0116d7999a8d006fb30b65
