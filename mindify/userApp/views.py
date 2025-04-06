@@ -21,6 +21,7 @@ def signupLogin(request):
 
                 user = User.objects.filter(email=email).first()
                 if user and password == user.password:
+                    user.is_active = True
                     request.session['user_id'] = user.id
                     user.save()
                     return redirect('main')
@@ -38,6 +39,7 @@ def signupLogin(request):
                 if not user:
                     user = User.objects.create(username=username, email=email, password=password)
                     request.session['user_id'] = user.id
+                    user.is_active = True
                     user.save()
                     return redirect('main')
                 else:
@@ -248,11 +250,11 @@ def deleteUser(request):
 def settings(request):
     user_id = request.session.get('user_id')
     if not user_id:
-        return redirect('signup-login')
+        return redirect('signup_login')
 
     user = User.objects.filter(id=user_id).first()
     if not user:
-        return redirect('signup-login')
+        return redirect('signup_login')
 
     context = {
         'user': user,

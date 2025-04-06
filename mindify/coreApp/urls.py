@@ -18,4 +18,6 @@ urlpatterns = [
 
     path('payment/checkout/', views.checkout, name='payment_checkout'),
     path('payment/success/', views.success, name='payment_success'),
+    path('ai-helper/', views.ai_helper, name='ai_helper'),
+    path('extract-text/<int:content_id>/', views.viewFileContent, name='extract_text'),
 ]
