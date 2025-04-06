@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Event, Tag, Content
 from django.forms.models import model_to_dict
 from django.db.models import Q
 import random
-from .forms import CreateEventForm
+from .forms import CreateEventForm, UpdateEventForm
 
 # basic webite views
 def homepage(request):
@@ -180,12 +180,77 @@ def room(request):
 def viewEvent(request):
     return render(request, 'coreApp/event/event-view.html')
 
-def editEvent(request):
-    return render(request, 'coreApp/event/event-edit.html')
+def editEvent(request, pk):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('signup_login')
+
+    event = get_object_or_404(Event, id=int(pk))
+    try:
+        content_obj = Content.objects.get(id_event=event)
+    except Content.DoesNotExist:
+        content_obj = None
+
+    # Preîncărcare pe GET
+    if request.method == 'GET':
+        form = UpdateEventForm(initial={
+            'title': event.title,
+            'description': event.description,
+            'date_posted': event.date_posted.strftime('%Y-%m-%d') if event.date_posted else None,
+            'price': event.price,
+            'tags': ', '.join(tag.tag_name for tag in event.tags.all()),
+            'event_picture': event.event_picture,
+            'content': content_obj.file_saved if content_obj else None,
+        })
+    else:  # POST
+        form = UpdateEventForm(request.POST, request.FILES)  # Inițializează form aici
+        if "update" in request.POST:
+            if form.is_valid():
+                event.title = form.cleaned_data['title']
+                event.description = form.cleaned_data['description']
+                event.price = form.cleaned_data['price']
+
+                # data
+                date_posted = form.cleaned_data['date_posted']
+                if date_posted:
+                    event.date_posted = date_posted
+
+                # imagine
+                if form.cleaned_data['event_picture']:
+                    event.event_picture = form.cleaned_data['event_picture']
+
+                # content file
+                if form.cleaned_data['content']:
+                    content = Content.objects.filter(id_event=event).first()
+                    if content:
+                        content.file_saved = form.cleaned_data['content']
+                        content.save()
+                    else:
+                        Content.objects.create(id_event=event, file_saved=form.cleaned_data['content'])
+
+                # tags
+                event.tags.clear()
+                tags_raw = form.cleaned_data['tags']
+                if tags_raw:
+                    tag_list = [tag.strip() for tag in tags_raw.split(',')]
+                    for tag_name in tag_list:
+                        tag, _ = Tag.objects.get_or_create(tag_name=tag_name)
+                        event.tags.add(tag)
+
+                event.save()
+        elif "delete" in request.POST:
+            event.delete()
+            return redirect('main')
+
+    context = {
+        'event_form': form if form else None,
+        'event': event if event else None,
+    }
+
+    return render(request, 'coreApp/event/event-edit.html', context)
 
 def deleteEvent(request):
-    return render(request, 'coreApp/event/event-edit.html')
-
+    return render(request, 'coreApp/payment/payment-checkout.html')
 
 # payment views
 def checkout(request):

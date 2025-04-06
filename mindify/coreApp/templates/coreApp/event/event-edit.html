@@ -1,102 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="container mt-5 mb-5">
-    <div class="card mb-3 shadow-lg" style="max-width: 1000px; margin: 0 auto;">
-        <div class="row g-0">
-            <!-- Event Photo -->
-            <div class="col-md-5">
-                <img src="https://via.placeholder.com/600x300" class="img-fluid rounded-start" alt="Event Photo"
-                    style="width: 100%; height: auto;">
-            </div>
-
-            <!-- Event Details -->
-            <div class="col-md-7 d-flex flex-column">
-                <div class="card-body flex-grow-1">
-                    <!-- Event Title -->
-                    <h1 class="card-title text-primary fw-bold mb-4" style="font-size: 2.5rem;">Event Title</h1>
-
-                    <!-- Event Description -->
-                    <p class="card-text" style="font-size: 1.2rem;">
-                        This is a detailed description of the event. It provides all the necessary information about the
-                        event, including what to expect, the schedule, and any other relevant details.
-                    </p>
-
-                    <!-- Number of People Joined -->
-                    <p class="card-text">
-                        <small class="text-body-secondary" style="font-size: 1rem;">
-                            <i class="bi bi-people-fill"></i> <strong>123</strong> people have joined this event.
-                        </small>
-                    </p>
-                </div>
-
-                <!-- Join or Buy Button -->
-                <div class="card-footer text-end">
-                    <!-- Join Event Button -->
-                    <!-- <a href="#" class="btn btn-primary btn-lg px-5">Join Event</a> -->
-
-                    <!-- Buy Ticket Button with Hardcoded Price -->
-                    <!-- Uncomment the following block if the event requires payment -->
-
-                    <div class="d-flex justify-content-end align-items-center">
-                        <span class="me-3 fw-bold" style="font-size: 1.2rem;">Price: $50</span>
-                        <a href="/events/checkout" class="btn btn-success btn-lg px-5">Buy Ticket</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
 <div class="container mt-5">
     <div class="card shadow-lg" style="max-width: 640px; margin: 0 auto;">
         <div class="card-body">
-            <h3 class="mb-4 text-center">Create Event</h3>
+            <h3 class="mb-4 text-center">Update Event</h3>
+
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                
-                <!-- Event Title -->
-                <div class="mb-3">
-                    <label for="event-title" class="form-label">Event Title</label>
-                    <input type="text" class="form-control" id="event-title" name="event_title" placeholder="Enter event title" required>
-                </div>
 
-                <!-- Event Description -->
-                <div class="mb-3">
-                    <label for="event-description" class="form-label">Event Description</label>
-                    <textarea class="form-control" id="event-description" name="event_description" rows="4" placeholder="Enter event description" required></textarea>
-                </div>
+                <!-- Display Current Image Above Input -->
+                {% if event.event_picture %}
+                    <div class="mb-3 text-center">
+                        <label>Current Image:</label><br>
+                        <img src="{{ event.event_picture.url }}" alt="Current Event Image" style="max-height: 200px;" class="img-fluid rounded shadow-sm">
+                    </div>
+                {% endif %}
 
-                <!-- Event Date -->
-                <div class="mb-3">
-                    <label for="event-date" class="form-label">Event Date</label>
-                    <input type="date" class="form-control" id="event-date" name="event_date" required>
-                </div>
+                {{ event_form.as_p }}
 
-                <!-- Event Photo -->
-                <div class="mb-3">
-                    <label for="event-photo" class="form-label">Event Photo</label>
-                    <input type="file" class="form-control" id="event-photo" name="event_photo" accept="image/*" required>
-                </div>
-
-                <!-- Curriculum (PDF) -->
-                <div class="mb-3">
-                    <label for="curriculum" class="form-label">Curriculum (PDF)</label>
-                    <input type="file" class="form-control" id="curriculum" name="curriculum" accept=".pdf" multiple>
-                </div>
-
-                <!-- Podcast (Audio) -->
-                <div class="mb-3">
-                    <label for="podcast" class="form-label">Podcast (Audio)</label>
-                    <input type="file" class="form-control" id="podcast" name="podcast" accept="audio/*" multiple>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Create Event</button>
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-primary" name="update">Update Event</button>
+                    <button type="submit" class="btn btn-danger" name="delete">Delete Event</button>
                 </div>
             </form>
         </div>
