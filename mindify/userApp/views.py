@@ -133,7 +133,7 @@ def editUser(request):
             if form.cleaned_data.get('profile_picture'):
                 user.profile_picture = form.cleaned_data['profile_picture']
             user.save()
-            return redirect('profile')
+            return redirect('user')
     else:
        
         initial_data = {

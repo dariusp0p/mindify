@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import User, Event, Tag, Subscription
+from .models import User, Event, Tag, Content
 from django.forms.models import model_to_dict
 from django.db.models import Q
 import random
-
+from .forms import CreateEventForm
 
 # basic webite views
 def homepage(request):
@@ -31,7 +31,7 @@ def about(request):
     context = {
         "user": user
     }
-    return render(request, 'coreApp/about.html')
+    return render(request, 'coreApp/about.html', context)
 
 def contact(request):
     user_id = request.session.get("user_id")
@@ -180,9 +180,6 @@ def room(request):
 def viewEvent(request):
     return render(request, 'coreApp/event/event-view.html')
 
-def createEvent(request):
-    return render(request, 'coreApp/event/event-create.html')
-
 def editEvent(request):
     return render(request, 'coreApp/event/event-edit.html')
 
@@ -197,22 +194,55 @@ def checkout(request):
 def success(request):
     return render(request, 'coreApp/payment/payment-success.html')
 
+from django.shortcuts import render, redirect
+from .forms import CreateEventForm
+from coreApp.models import Event, Tag, Content
 
+def createEvent(request):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('signup_login')
 
+    if request.method == 'POST':
+        form = CreateEventForm(request.POST, request.FILES)
+        print("msg1")
+        if form.is_valid():
+            print("msg2")
+            # Extract form data
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            date_posted = form.cleaned_data['date_posted']
+            event_picture = form.cleaned_data['event_picture']
+            content_file = form.cleaned_data['content']
+            price = form.cleaned_data['price']
+            tags = form.cleaned_data['tags']  # Comma-separated string
 
+            # Create and save the event
+            event = Event.objects.create(
+                id_creator_id=user_id,
+                title=title,
+                description=description,
+                date_posted=date_posted,
+                event_picture=event_picture,
+                price=price,
+            )
 
+            # Save content associated with the event
+            if content_file:
+                Content.objects.create(
+                    id_event=event,
+                    file_saved=content_file,
+                )
 
+            # Process tags
+            if tags:
+                tag_list = [tag.strip() for tag in tags.split(',')]  # Split by commas and strip whitespace
+                for tag_name in tag_list:
+                    tag, created = Tag.objects.get_or_create(tag_name=tag_name)
+                    event.tags.add(tag)  # Associate the tag with the event
 
+            return redirect('main')  # Redirect to the event list page
+    else:
+        form = CreateEventForm()
 
-
-
-
-
-
-
-
-
-def getRandomListOfRecommandations(events, numberOfEvents):
-    if numberOfEvents > len(events):
-        numberOfEvents = len(events)
-    return random.sample(events, numberOfEvents) 
+    return render(request, 'coreApp/event/event-create.html', {'event_form': form})
