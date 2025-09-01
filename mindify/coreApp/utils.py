@@ -2,7 +2,8 @@ import openai
 
 from django.conf import settings
 
-openai.api_key = settings.OPENAI_API_KEY
+if settings.OPENAI_API_KEY:
+    openai.api_key = settings.OPENAI_API_KEY
 
 def chat_with_gpt(prompt):
     """

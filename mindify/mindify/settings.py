@@ -14,7 +14,7 @@ from pathlib import Path
 
 from decouple import config
 
-OPENAI_API_KEY = config('OPENAI_API_KEY')
+OPENAI_API_KEY = config('OPENAI_API_KEY', default=None)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
