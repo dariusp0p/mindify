@@ -50,7 +50,7 @@ build/
 secrets.json
 *.key
 *.pem
-config/local_settings.py  # Local settings not for version control
+config/local_settings.py
 
 # === Temporary / Cache ===
 .cache/
