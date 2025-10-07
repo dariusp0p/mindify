@@ -12,6 +12,7 @@ db.sqlite3              # Default local dev DB (don't commit it)
 *.json                  # Optional: exclude dumped fixtures if not tracking them
 /media/                 # Uploaded media files
 /staticfiles/           # Output of `collectstatic` (rebuildable)
+migrations/__pycache__/ # Migration cache files
 
 # === Environments ===
 env/
@@ -26,10 +27,32 @@ ENV/
 .vscode/
 .idea/
 *.code-workspace
+*.sublime-project
+*.sublime-workspace
 
 # === OS / Misc ===
 .DS_Store               # macOS
 Thumbs.db               # Windows
+*.bak
+*.backup
 
-# === Bootstrap ===
+# === Node.js / Frontend ===
 **/node_modules/          # Node.js dependencies
+npm-debug.log*          # npm error logs
+yarn-debug.log*         # Yarn error logs
+yarn-error.log*         # Yarn error logs
+.npm
+.yarn-integrity
+dist/                   # Build output
+build/                  # Build output
+
+# === Secrets / Sensitive Files ===
+secrets.json
+*.key
+*.pem
+config/local_settings.py  # Local settings not for version control
+
+# === Temporary / Cache ===
+.cache/
+*.egg-info/
+.eggs/
