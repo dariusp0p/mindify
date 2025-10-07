@@ -1,0 +1,42 @@
+{% extends "forms.html" %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg text-center" style="max-width: 600px; width: 100%;">
+        <div class="card-body">
+            <!-- Success Icon -->
+            <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+            </div>
+
+            <!-- Success Message -->
+            <h1 class="text-success fw-bold mb-3">Payment Successful!</h1>
+            <p class="card-text mb-4" style="font-size: 1.2rem;">
+                Thank you for your payment. Your transaction has been successfully processed.
+            </p>
+
+            <!-- Payment Summary -->
+            <div class="mb-4">
+                <h5 class="fw-bold">Payment Summary</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Event:</span>
+                        <strong>Event Title</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Amount Paid:</span>
+                        <strong>$50</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Transaction ID:</span>
+                        <strong>#123456789</strong>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Return Button -->
+            <a href="/" class="btn btn-primary btn-lg">Return to Homepage</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

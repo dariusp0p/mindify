@@ -1,0 +1,183 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-sm mt-5 d-flex justify-content-center flex-column gap-4">
+  <!-- Profile Card -->
+  <div
+    class="card shadow-lg profile-card ms-auto me-auto"
+    style="max-width: 720px; width: 100%"
+  >
+    <div class="card-body">
+      <div class="row align-items-center">
+        <!-- Profile Picture and Status -->
+        <div class="col-md-4 text-center">
+          <!-- Larger Profile Picture -->
+          <img
+            src="{{ user.get_profile_photo_url }}"
+            alt="Profile Picture"
+            class="rounded-circle mb-3 border"
+            style="width: 200px; height: 200px"
+          />
+
+          <!-- Status Card -->
+          <div
+            class="card bg-light border-0 shadow-sm"
+            style="max-width: 200px; margin: 0 auto"
+          >
+            <div
+              class="card-body p-2 d-flex align-items-center justify-content-center"
+            >
+              <!-- Green Bubble for Active -->
+              <span
+                class="rounded-circle bg-success"
+                style="
+                  width: 10px;
+                  height: 10px;
+                  display: inline-block;
+                  margin-right: 8px;
+                "
+              ></span>
+              <span class="text-muted small">
+                {% if user.is_active%} Active {% else %} Inactive {% endif %}
+              </span>
+            </div>
+          </div>
+
+          <!-- Uncomment this block for "Last Online" status -->
+
+          <div
+            class="card bg-light border-0 shadow-sm"
+            style="max-width: 200px; margin: 0 auto"
+          >
+            <div
+              class="card-body p-2 d-flex align-items-center justify-content-center"
+            >
+              <span
+                class="rounded-circle bg-danger"
+                style="
+                  width: 10px;
+                  height: 10px;
+                  display: inline-block;
+                  margin-right: 8px;
+                "
+              ></span>
+              <span class="text-muted small">Last login: {{ user.last_login|date:"d.m, H:i" }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="col-md-8">
+          <h3 class="display-6">Profile Details</h3>
+          <p>
+            Username: <strong>{{ user.username }}</strong>
+            <a
+              href="{% url 'change_username' %}"
+              class="text-primary ms-2"
+              title="Edit Username"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </p>
+          <p>
+            Email: <strong>{{ user.email }}</strong>
+            <a
+            href="{% url 'change_email' %}"
+            class="text-primary ms-2"
+              title="Edit Email"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </p>
+          <p class="d-flex gap-4">
+            <span>First Name: <strong>{{ user.first_name }}</strong></span>
+            <span>Last Name: <strong>{{ user.last_name }}</strong></span>
+          </p>
+          <p>Gender: <strong>{{ user.gender|capfirst }}</strong></p>
+          <p>Date Joined: <strong>{{ date_joined }}</strong></p>
+
+          <!-- Action Buttons -->
+          <div class="mt-4 d-flex flex-wrap gap-2 justify-content-end">
+            <a href="{% url 'edit_user' %}" class="btn btn-outline-primary"
+              >Edit Profile</a
+            >
+            <a
+              href="{% url 'change_password' %}"
+              class="btn btn-outline-primary"
+              >Change Password</a
+            >
+            <a href="{% url 'delete_user' %}" class="btn btn-outline-danger"
+              >Delete Account</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Horizontal Scrollable Section -->
+  <h5 class="mb-3">Your Events</h5>
+  <div class="horizontal-scrollable">
+    <div class="d-flex gap-3">
+      {% if nrOfEvents == 0 %}
+        <div class="alert alert-info" role="alert">
+          You have no events yet. Create one to get started!
+        </div>
+      {% endif %}
+      {% for event in your_events %}
+        <div class="card mb-3" style="min-width: 300px">
+          <div class="card-body">
+            <h5 class="card-title">{{ event.title }}</h5>
+            <p class="card-text">
+              {{ event.description }}
+            </p>
+            <a href="#" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Horizontal Scrollable Section -->
+  <h5 class="mb-3">You are part of</h5>
+  <div class="horizontal-scrollable">
+    <div class="d-flex gap-3">
+      {% if nrOfSubscriptions == 0 %}
+        <div class="alert alert-info" role="alert">
+          You are not subscribed to any events yet.
+        </div>
+      {% endif %} 
+      {% for subscription in you_are_part_of %}
+        <div class="card mb-3" style="min-width: 300px">
+          <div class="card-body">
+            <h5 class="card-title">{{ subscription.id_event.title }}</h5>
+            <p class="card-text">
+              {{ subscription.id_event.description }}
+            </p>
+            <a href="#" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-container {
+    max-width: 800px;
+    /* Set a smaller maximum width */
+    margin: 0 auto;
+    /* Center the container */
+  }
+
+  .horizontal-scrollable {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+  }
+
+  .horizontal-scrollable .card {
+    display: inline-block;
+    white-space: normal;
+  }
+</style>
+{% endblock %}

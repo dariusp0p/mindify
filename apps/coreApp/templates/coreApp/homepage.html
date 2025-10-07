@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<!-- Hero Section -->
+<section class="hero-section text-white text-center py-5">
+    <div class="overlay"></div> <!-- Overlay is now separate -->
+    <div class="container">
+        <h1 class="display-1 fw-bold">Level Up Your Career</h1>
+        <p class="lead">Join thousands of learners and start your journey today with our expert-led courses.</p>
+        <a href="{% url 'signup_login' %}" class="btn btn-light btn-lg mt-3">Start Learning</a>
+    </div>
+</section>
+
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="display-3 fw-bold mb-5">Why Choose Us?</h2>
+        <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="bi bi-person-check-fill text-primary" style="font-size: 6rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Expert Instructors</h5>
+                        <p class="card-text">
+                            Learn from industry leaders with years of experience. Our instructors are passionate about
+                            teaching and are dedicated to helping you succeed in your career.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Feature 2 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="bi bi-laptop-fill text-success" style="font-size: 6rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Flexible Learning</h5>
+                        <p class="card-text">
+                            Access courses anytime, anywhere, on any device. Whether you're at home, at work, or on the
+                            go, our platform is designed to fit your schedule.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Feature 3 -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <i class="bi bi-award-fill text-warning" style="font-size: 6rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">Certification</h5>
+                        <p class="card-text">
+                            Earn certificates to showcase your achievements. Boost your resume and stand out to
+                            employers with verified credentials from our platform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Courses Section -->
+<section id="courses" class="bg-light py-5">
+    <div class="container">
+        <h2 class="display-3 fw-bold text-center mb-4">Our Popular Courses</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Course 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Web Development</h5>
+                        <p class="card-text">Master HTML, CSS, and JavaScript to build modern websites.</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Course 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Python Programming</h5>
+                        <p class="card-text">Learn Python from scratch and build real-world projects.</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="Course 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Data Science</h5>
+                        <p class="card-text">Analyze data and gain insights with Python and machine learning.</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-5 bg-white">
+    <div class="container">
+        <h2 class="display-3 fw-bold text-center mb-5">What Our Learners Say</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Testimonial 1 -->
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <img src="{% static 'img/stock1.jpg' %}" alt="User 1"
+                                class="rounded-circle mb-3 testimonial-img">
+                            <blockquote class="blockquote">
+                                <p class="mb-4">"This platform has completely transformed my career. The courses are
+                                    well-structured, and the instructors are amazing!"</p>
+                            </blockquote>
+                            <footer class="blockquote-footer">John Doe, Web Developer</footer>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <img src="{% static 'img/stock3.jpg' %}" alt="User 1"
+                                class="rounded-circle mb-3 testimonial-img">
+                            <blockquote class="blockquote">
+                                <p class="mb-4">"I love the flexibility of learning at my own pace. The certification
+                                    helped me land my dream job!"</p>
+                            </blockquote>
+                            <footer class="blockquote-footer">Jane Smith, Data Scientist</footer>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <img src="{% static 'img/stock2.jpg' %}" alt="User 1"
+                                class="rounded-circle mb-3 testimonial-img">
+                            <blockquote class="blockquote">
+                                <p class="mb-4">"The courses are top-notch, and the support team is always there to
+                                    help. Highly recommend!"</p>
+                            </blockquote>
+                            <footer class="blockquote-footer">Richard Johnson, Software Engineer</footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .hero-section {
+        background-image: url('{% static "img/background2.jpg" %}');
+        /* Replace with your image URL */
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        height: 60vh;
+        /* Adjust height as needed */
+        display: flex;
+        /* Enable Flexbox */
+        align-items: center;
+        /* Center content vertically */
+        justify-content: center;
+        /* Center content horizontally */
+        text-align: center;
+        /* Ensure text is centered */
+    }
+
+    .hero-section .overlay {
+        background-color: #4103fc;
+        /* Black overlay with 50% opacity */
+        opacity: 0.4;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        /* Ensure overlay is below the content */
+    }
+
+    .hero-section .container {
+        position: relative;
+        z-index: 2;
+        /* Ensure content is above the overlay */
+    }
+
+    .testimonial-img {
+        width: 150px; /* Set a fixed width */
+        height: 150px; /* Set a fixed height to make it square */
+        object-fit: cover; /* Ensures the image content fits within the square */
+        border: 3px solid #f8f9fa; /* Optional: Add a border for styling */
+    }
+
+    /* Remove any custom styles for the carousel controls */
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-image: none !important; /* Ensure no custom background is applied */
+    }
+
+    /* Optional: Add hover effect for better visibility */
+    .carousel-control-prev:hover .carousel-control-prev-icon,
+    .carousel-control-next:hover .carousel-control-next-icon {
+        background-color: #4103fc;
+        opacity: 0.4;
+        border-radius: 100%;
+         /* Slightly darken on hover */
+    }
+
+</style>
+
+
+{% endblock %}

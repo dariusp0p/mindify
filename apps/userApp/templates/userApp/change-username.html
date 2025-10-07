@@ -1,0 +1,30 @@
+{% extends "forms.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg" style="max-width: 640px; margin: 0 auto;">
+        <div class="card-body">
+            {% if output is not None %}
+                <div class="alert alert-danger" role="alert">
+                    {{ output }}
+                </div>
+            {% endif %}
+            <h3 class="mb-4 text-center">Change Username</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Change Username</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

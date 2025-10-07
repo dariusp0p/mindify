@@ -1,0 +1,88 @@
+{% extends "forms.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="auth-container" id="authContainer">
+
+    <!-- Login Form -->
+    <div class="form-panel" id="loginPanel">
+        <h4 class="h2 fw-bold">Login</h4>
+        <form novalidate method="POST">
+            {% csrf_token %}
+            {% for field in logInForm %}
+            <div class="mb-3 form-floating">
+                {{ field }}
+                {{ field.label_tag }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary w-100" name="login" value="login">Login</button>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-panel" id="signupPanel">
+        <h4 class="h2 fw-bold">Sign Up</h4>
+        <form novalidate method="POST">
+            {% csrf_token %}
+            {% for field in signUpForm %}
+            <div class="mb-3 form-floating">
+                {{ field }}
+                {{ field.label_tag }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary w-100" name="signup" value="signup">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Sliding Blur Overlay -->
+    <div class="overlay" id="overlay">
+        <div id="overlayContent">
+            <img src="{% static 'img/logo1.png' %}" alt="Logo" class="img-fluid mb-4" style="max-width: 150px;">
+            <h5 class="display-6 fw-bold" id="overlayText">Don't have an account?</h5>
+            <span class="toggle-btn h2 text-primary text-decoration-none" onclick="toggleForm()">Sign up</span>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Form validation 
+    const forms = document.querySelectorAll('form');
+    for (let form of forms) {
+        form.addEventListener('submit', (e) => {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+            }
+            form.classList.add('was-validated');
+        });
+    }
+
+    // Form toggle
+    const container = document.getElementById('authContainer');
+    const overlayText = document.getElementById('overlayText');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const loginPanel = document.getElementById('loginPanel');
+    const signupPanel = document.getElementById('signupPanel');
+    function toggleForm() {
+        container.classList.toggle('signup-active');
+        const isSignup = container.classList.contains('signup-active');
+
+        overlayText.textContent = isSignup
+            ? "Already have an account?"
+            : "Don't have an account?";
+
+        toggleBtn.textContent = isSignup ? "Login" : "Sign up";
+
+        loginPanel.classList.toggle('disabled', isSignup);
+        signupPanel.classList.toggle('disabled', !isSignup);
+    }
+    // toggleForm();
+    container.classList.remove('signup-active'); // Ensure no signup-active class
+    loginPanel.classList.remove('disabled'); // Enable Login form
+    signupPanel.classList.add('disabled'); // Disable Signup form
+</script>
+
+
+{% endblock %}

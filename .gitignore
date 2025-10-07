@@ -7,12 +7,12 @@ __pycache__/
 *.log
 
 # === Django ===
-db.sqlite3              # Default local dev DB (don't commit it)
-*.sqlite3               # Catch-all for any accidental SQLite DBs
-*.json                  # Optional: exclude dumped fixtures if not tracking them
-/media/                 # Uploaded media files
-/staticfiles/           # Output of `collectstatic` (rebuildable)
-migrations/__pycache__/ # Migration cache files
+db.sqlite3
+*.sqlite3
+*.json
+media/
+/staticfiles/
+migrations/__pycache__/
 
 # === Environments ===
 env/
@@ -21,7 +21,7 @@ venv/
 ENV/
 *.env
 .env.*
-!.env.example           # Keep an example file if you want to show required keys
+!.env.example
 
 # === IDEs / Editors ===
 .vscode/
@@ -31,20 +31,20 @@ ENV/
 *.sublime-workspace
 
 # === OS / Misc ===
-.DS_Store               # macOS
-Thumbs.db               # Windows
+.DS_Store
+Thumbs.db
 *.bak
 *.backup
 
 # === Node.js / Frontend ===
-**/node_modules/          # Node.js dependencies
-npm-debug.log*          # npm error logs
-yarn-debug.log*         # Yarn error logs
-yarn-error.log*         # Yarn error logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .npm
 .yarn-integrity
-dist/                   # Build output
-build/                  # Build output
+dist/
+build/
 
 # === Secrets / Sensitive Files ===
 secrets.json
